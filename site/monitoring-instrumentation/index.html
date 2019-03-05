@@ -1,0 +1,799 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="monitoring-instrumentation/">
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
+    
+    
+      
+        <title>3. Node.js monitoring instrumentation - Build to Manage - Node.js application monitoring lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.572ca0f0.css">
+      
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.8c900955.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#what-to-instrument-the-red-method" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="ttps://github.ibm.com/rafal-szypulka/b2m-nodejs/docs" title="Build to Manage - Node.js application monitoring lab" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Build to Manage - Node.js application monitoring lab
+              </span>
+              <span class="md-header-nav__topic">
+                3. Node.js monitoring instrumentation
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.ibm.com/rafal-szypulka/b2m-nodejs" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      Github
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="ttps://github.ibm.com/rafal-szypulka/b2m-nodejs/docs" title="Build to Manage - Node.js application monitoring lab" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Build to Manage - Node.js application monitoring lab
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.ibm.com/rafal-szypulka/b2m-nodejs" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      Github
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="1. Introduction" class="md-nav__link">
+      1. Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../logging/" title="2. Node.js logging and Elastic stack integration" class="md-nav__link">
+      2. Node.js logging and Elastic stack integration
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        3. Node.js monitoring instrumentation
+      </label>
+    
+    <a href="./" title="3. Node.js monitoring instrumentation" class="md-nav__link md-nav__link--active">
+      3. Node.js monitoring instrumentation
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-instrument-the-red-method" title="What to instrument - the RED method" class="md-nav__link">
+    What to instrument - the RED method
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instrument-application-code-with-nodejs-client-library-for-prometheus" title="Instrument application code with Node.js client library for Prometheus" class="md-nav__link">
+    Instrument application code with Node.js client library for Prometheus
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enable-default-metrics" title="Enable default metrics" class="md-nav__link">
+    Enable default metrics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#define-custom-metric" title="Define custom metric" class="md-nav__link">
+    Define custom metric
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checkouts_total" title="checkouts_total" class="md-nav__link">
+    checkouts_total
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http95request95duration95ms" title="http_request_duration_ms" class="md-nav__link">
+    http_request_duration_ms
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../Prometheus-Grafana/" title="4. Prometheus and Grafana configuration" class="md-nav__link">
+      4. Prometheus and Grafana configuration
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../ICP/" title="5. Deploy to IBM Cloud Private" class="md-nav__link">
+      5. Deploy to IBM Cloud Private
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../about/" title="About" class="md-nav__link">
+      About
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-instrument-the-red-method" title="What to instrument - the RED method" class="md-nav__link">
+    What to instrument - the RED method
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instrument-application-code-with-nodejs-client-library-for-prometheus" title="Instrument application code with Node.js client library for Prometheus" class="md-nav__link">
+    Instrument application code with Node.js client library for Prometheus
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enable-default-metrics" title="Enable default metrics" class="md-nav__link">
+    Enable default metrics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#define-custom-metric" title="Define custom metric" class="md-nav__link">
+    Define custom metric
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checkouts_total" title="checkouts_total" class="md-nav__link">
+    checkouts_total
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http95request95duration95ms" title="http_request_duration_ms" class="md-nav__link">
+    http_request_duration_ms
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>3. Node.js monitoring instrumentation</h1>
+                
+                <h2 id="what-to-instrument-the-red-method">What to instrument - the RED method<a class="headerlink" href="#what-to-instrument-the-red-method" title="Permanent link">&para;</a></h2>
+<p>One of the most important decisions to make when setting up web application monitoring is deciding on the type of metrics you need to collect about your app. The metrics you choose simplifies troubleshooting when a problem occurs and also enables you to stay on top of the stability of your services and infrastructure.</p>
+<p>The <a href="https://www.weave.works/blog/the-red-method-key-metrics-for-microservices-architecture/">RED method</a> follows on the principles outlined in the <a href="https://landing.google.com/sre/book/chapters/monitoring-distributed-systems.html#xref_monitoring_golden-signals">Four Golden Signals</a> developed by Site Reliability Engineers, which focuses on measuring things that end-users care about when using your web services. With the RED method, three key metrics are instrumented that monitor every microservice in your architecture:</p>
+<ul>
+<li>(Request) Rate - the number of requests, per second, your services are serving.</li>
+<li>(Request) Errors - the number of failed requests per second.</li>
+<li>(Request) Duration - The amount of time each request takes expressed as a time interval.</li>
+</ul>
+<p>Rate, Errors and Duration attempt to cover the most obvious web service issues. These metrics also capture an error rate that is expressed as a proportion of request rate.</p>
+<h2 id="instrument-application-code-with-nodejs-client-library-for-prometheus">Instrument application code with Node.js client library for Prometheus<a class="headerlink" href="#instrument-application-code-with-nodejs-client-library-for-prometheus" title="Permanent link">&para;</a></h2>
+<p>Go to the directory where the <code>server.js</code> file is located and run the following command to install and configure a <a href="https://github.com/siimon/prom-client">prom-client</a> - a Node.js client library for Prometheus.</p>
+<div class="codehilite"><pre><span></span>npm install --save prom-client
+</pre></div>
+
+
+<p>this should add the following dependency to the <code>package.json</code>:</p>
+<div class="codehilite"><pre><span></span>    &quot;prom-client&quot;: &quot;^9.1.1&quot;
+</pre></div>
+
+
+<h3 id="enable-default-metrics">Enable default metrics<a class="headerlink" href="#enable-default-metrics" title="Permanent link">&para;</a></h3>
+<p>There are some default metrics recommended by Prometheus
+<a href="https://prometheus.io/docs/instrumenting/writing_clientlibs/#standard-and-runtime-collectors">itself</a>.
+To collect these, call <code>collectDefaultMetrics</code></p>
+<p>NOTE: Some of the metrics, concerning File Descriptors and Memory, are only available on Linux.</p>
+<p>In addition, some Node-specific metrics are included, such as event loop lag,
+active handles and Node.js version. See what metrics there are in
+<a href="https://github.com/siimon/prom-client/lib/metrics">https://github.com/siimon/prom-client/lib/metrics</a>.</p>
+<p><code>collectDefaultMetrics</code> takes 1 options object with 3 entries, a timeout for how
+often the probe should be fired, an optional prefix for metric names
+and a registry to which metrics should be registered. By default probes are
+launched every 10 seconds, but this can be modified like this:</p>
+<div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">client</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;prom-client&#39;</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">collectDefaultMetrics</span> <span class="o">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">collectDefaultMetrics</span><span class="p">;</span>
+<span class="c1">// Probe every 5th second.</span>
+<span class="nx">collectDefaultMetrics</span><span class="p">({</span> <span class="nx">timeout</span><span class="o">:</span> <span class="mi">5000</span> <span class="p">});</span>
+</pre></div>
+
+
+<p><strong>Lab Instructions:</strong></p>
+<p>Edit <code>server.js</code> and <em>uncomment</em> the following lines to enable exposure of default set of Node.js metrics on standard Prometheus route <code>/metrics</code></p>
+<div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">Prometheus</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;prom-client&#39;</span><span class="p">)</span>
+<span class="kr">const</span> <span class="nx">metricsInterval</span> <span class="o">=</span> <span class="nx">Prometheus</span><span class="p">.</span><span class="nx">collectDefaultMetrics</span><span class="p">()</span>
+</pre></div>
+
+
+<p>and</p>
+<div class="codehilite"><pre><span></span> <span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/metrics&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+   <span class="nx">res</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="nx">Prometheus</span><span class="p">.</span><span class="nx">register</span><span class="p">.</span><span class="nx">contentType</span><span class="p">)</span>
+   <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="nx">Prometheus</span><span class="p">.</span><span class="nx">register</span><span class="p">.</span><span class="nx">metrics</span><span class="p">())</span>
+ <span class="p">})</span>
+</pre></div>
+
+
+<p>Use browser to access <code>http://localhost:3001/metrics</code> to verify exposed metrics. Output should be similar to:</p>
+<div class="codehilite"><pre><span></span># HELP process_cpu_user_seconds_total Total user CPU time spent in seconds.
+# TYPE process_cpu_user_seconds_total counter
+process_cpu_user_seconds_total 0.028084 1546452963611
+
+# HELP process_cpu_system_seconds_total Total system CPU time spent in seconds.
+# TYPE process_cpu_system_seconds_total counter
+process_cpu_system_seconds_total 0.0038780000000000004 1546452963611
+
+# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.
+# TYPE process_cpu_seconds_total counter
+process_cpu_seconds_total 0.031962 1546452963611
+
+# HELP process_start_time_seconds Start time of the process since unix epoch in seconds.
+# TYPE process_start_time_seconds gauge
+process_start_time_seconds 1546452953
+
+# HELP process_resident_memory_bytes Resident memory size in bytes.
+# TYPE process_resident_memory_bytes gauge
+process_resident_memory_bytes 29188096 1546452963611
+
+# HELP nodejs_eventloop_lag_seconds Lag of event loop in seconds.
+# TYPE nodejs_eventloop_lag_seconds gauge
+nodejs_eventloop_lag_seconds 0.000393303 1546452963612
+
+# HELP nodejs_active_handles_total Number of active handles.
+# TYPE nodejs_active_handles_total gauge
+nodejs_active_handles_total 3 1546452963611
+
+# HELP nodejs_active_requests_total Number of active requests.
+# TYPE nodejs_active_requests_total gauge
+nodejs_active_requests_total 0 1546452963611
+
+# HELP nodejs_heap_size_total_bytes Process heap size from node.js in bytes.
+# TYPE nodejs_heap_size_total_bytes gauge
+nodejs_heap_size_total_bytes 20217856 1546452963611
+
+# HELP nodejs_heap_size_used_bytes Process heap size used from node.js in bytes.
+# TYPE nodejs_heap_size_used_bytes gauge
+nodejs_heap_size_used_bytes 8464704 1546452963611
+
+# HELP nodejs_external_memory_bytes Nodejs external memory size in bytes.
+# TYPE nodejs_external_memory_bytes gauge
+nodejs_external_memory_bytes 24656 1546452963611
+
+# HELP nodejs_heap_space_size_total_bytes Process heap space size total from node.js in bytes.
+# TYPE nodejs_heap_space_size_total_bytes gauge
+nodejs_heap_space_size_total_bytes{space=&quot;read_only&quot;} 0 1546452963612
+nodejs_heap_space_size_total_bytes{space=&quot;new&quot;} 8388608 1546452963612
+nodejs_heap_space_size_total_bytes{space=&quot;old&quot;} 8134656 1546452963612
+nodejs_heap_space_size_total_bytes{space=&quot;code&quot;} 1048576 1546452963612
+nodejs_heap_space_size_total_bytes{space=&quot;map&quot;} 1073152 1546452963612
+nodejs_heap_space_size_total_bytes{space=&quot;large_object&quot;} 1572864 1546452963612
+
+# HELP nodejs_heap_space_size_used_bytes Process heap space size used from node.js in bytes.
+# TYPE nodejs_heap_space_size_used_bytes gauge
+nodejs_heap_space_size_used_bytes{space=&quot;read_only&quot;} 0 1546452963612
+nodejs_heap_space_size_used_bytes{space=&quot;new&quot;} 829768 1546452963612
+nodejs_heap_space_size_used_bytes{space=&quot;old&quot;} 6008448 1546452963612
+nodejs_heap_space_size_used_bytes{space=&quot;code&quot;} 847136 1546452963612
+nodejs_heap_space_size_used_bytes{space=&quot;map&quot;} 533016 1546452963612
+nodejs_heap_space_size_used_bytes{space=&quot;large_object&quot;} 249024 1546452963612
+
+# HELP nodejs_heap_space_size_available_bytes Process heap space size available from node.js in bytes.
+# TYPE nodejs_heap_space_size_available_bytes gauge
+nodejs_heap_space_size_available_bytes{space=&quot;read_only&quot;} 0 1546452963612
+nodejs_heap_space_size_available_bytes{space=&quot;new&quot;} 3294904 1546452963612
+nodejs_heap_space_size_available_bytes{space=&quot;old&quot;} 1656536 1546452963612
+nodejs_heap_space_size_available_bytes{space=&quot;code&quot;} 0 1546452963612
+nodejs_heap_space_size_available_bytes{space=&quot;map&quot;} 80 1546452963612
+nodejs_heap_space_size_available_bytes{space=&quot;large_object&quot;} 1506500096 1546452963612
+
+# HELP nodejs_version_info Node.js version info.
+# TYPE nodejs_version_info gauge
+nodejs_version_info{version=&quot;v10.7.0&quot;,major=&quot;10&quot;,minor=&quot;7&quot;,patch=&quot;0&quot;} 1
+</pre></div>
+
+
+<h3 id="define-custom-metric">Define custom metric<a class="headerlink" href="#define-custom-metric" title="Permanent link">&para;</a></h3>
+<p>Node.js Prometheus client library allows to define various types of Prometheus metrics like histograms, summaries, gauges and counters. More detailed description of metric types can be found in Prometheus <a href="https://prometheus.io/docs/concepts/metric_types/">documentation</a>.</p>
+<p>In this lab we will define two custom metrics:</p>
+<ul>
+<li>counter <code>checkouts_total</code> which will store a total numer of <code>checkout</code> requests</li>
+<li>histogram <code>http_request_duration_ms</code> which will store percentiles of application requests response time</li>
+</ul>
+<p><strong>Lab Instructions:</strong></p>
+<p>Uncomment the rest of commented lines in <code>server.js</code></p>
+<h4 id="checkouts_total">checkouts_total<a class="headerlink" href="#checkouts_total" title="Permanent link">&para;</a></h4>
+<p>Declaration of <code>checkouts_total</code> counter.</p>
+<div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">checkoutsTotal</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Prometheus</span><span class="p">.</span><span class="nx">Counter</span><span class="p">({</span>
+   <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;checkouts_total&#39;</span><span class="p">,</span>
+   <span class="nx">help</span><span class="o">:</span> <span class="s1">&#39;Total number of checkouts&#39;</span><span class="p">,</span>
+   <span class="nx">labelNames</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;payment_method&#39;</span><span class="p">]</span>
+ <span class="p">})</span>
+</pre></div>
+
+
+<p>This counter will be incremented for every <code>checkout</code> request</p>
+<div class="codehilite"><pre><span></span><span class="nx">checkoutsTotal</span><span class="p">.</span><span class="nx">inc</span><span class="p">({</span>
+     <span class="nx">payment_method</span><span class="o">:</span> <span class="nx">paymentMethod</span>
+<span class="p">})</span>
+</pre></div>
+
+
+<h4 id="http95request95duration95ms">http_request_duration_ms<a class="headerlink" href="#http95request95duration95ms" title="Permanent link">&para;</a></h4>
+<p>Declaration of <code>http_request_duration_ms</code> histogram:</p>
+<div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">httpRequestDurationMicroseconds</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Prometheus</span><span class="p">.</span><span class="nx">Histogram</span><span class="p">({</span>
+   <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;http_request_duration_ms&#39;</span><span class="p">,</span>
+   <span class="nx">help</span><span class="o">:</span> <span class="s1">&#39;Duration of HTTP requests in ms&#39;</span><span class="p">,</span>
+   <span class="nx">labelNames</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;route&#39;</span><span class="p">,</span> <span class="s1">&#39;code&#39;</span><span class="p">],</span>
+   <span class="nx">buckets</span><span class="o">:</span> <span class="p">[</span><span class="mf">0.10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">500</span><span class="p">]</span>  <span class="c1">// buckets for response time from 0.1ms to 500ms</span>
+ <span class="p">})</span>
+</pre></div>
+
+
+<p>The current time is recorded before each request:</p>
+<div class="codehilite"><pre><span></span><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">((</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">locals</span><span class="p">.</span><span class="nx">startEpoch</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span>
+  <span class="nx">next</span><span class="p">()</span>
+<span class="p">})</span>
+</pre></div>
+
+
+<p>We record the current time also after each request and update our <code>http_request_duration_ms</code> histogram accordingly:</p>
+<div class="codehilite"><pre><span></span><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">((</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">responseTimeInMs</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">-</span> <span class="nx">res</span><span class="p">.</span><span class="nx">locals</span><span class="p">.</span><span class="nx">startEpoch</span>
+
+  <span class="nx">httpRequestDurationMicroseconds</span>
+    <span class="p">.</span><span class="nx">labels</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">method</span><span class="p">,</span> <span class="nx">req</span><span class="p">.</span><span class="nx">route</span><span class="p">.</span><span class="nx">path</span><span class="p">,</span> <span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nx">responseTimeInMs</span><span class="p">)</span>
+  <span class="nx">next</span><span class="p">()</span>
+<span class="p">})</span>
+</pre></div>
+
+
+<p>Use browser to access <code>http://localhost:3001/metrics</code> to verify exposed metrics. Output should be similar to:</p>
+<div class="codehilite"><pre><span></span>(...)
+# HELP checkouts_total Total number of checkouts
+# TYPE checkouts_total counter
+checkouts_total{payment_method=&quot;paypal&quot;} 7
+checkouts_total{payment_method=&quot;stripe&quot;} 5
+
+# HELP http_request_duration_ms Duration of HTTP requests in ms
+# TYPE http_request_duration_ms histogram
+http_request_duration_ms_bucket{le=&quot;0.1&quot;,code=&quot;304&quot;,route=&quot;/&quot;,method=&quot;GET&quot;} 0
+http_request_duration_ms_bucket{le=&quot;5&quot;,code=&quot;304&quot;,route=&quot;/&quot;,method=&quot;GET&quot;} 0
+http_request_duration_ms_bucket{le=&quot;15&quot;,code=&quot;304&quot;,route=&quot;/&quot;,method=&quot;GET&quot;} 0
+http_request_duration_ms_bucket{le=&quot;50&quot;,code=&quot;304&quot;,route=&quot;/&quot;,method=&quot;GET&quot;} 0
+http_request_duration_ms_bucket{le=&quot;100&quot;,code=&quot;304&quot;,route=&quot;/&quot;,method=&quot;GET&quot;} 0
+http_request_duration_ms_bucket{le=&quot;200&quot;,code=&quot;304&quot;,route=&quot;/&quot;,method=&quot;GET&quot;} 3
+http_request_duration_ms_bucket{le=&quot;300&quot;,code=&quot;304&quot;,route=&quot;/&quot;,method=&quot;GET&quot;} 3
+http_request_duration_ms_bucket{le=&quot;400&quot;,code=&quot;304&quot;,route=&quot;/&quot;,method=&quot;GET&quot;} 3
+http_request_duration_ms_bucket{le=&quot;500&quot;,code=&quot;304&quot;,route=&quot;/&quot;,method=&quot;GET&quot;} 3
+http_request_duration_ms_bucket{le=&quot;+Inf&quot;,code=&quot;304&quot;,route=&quot;/&quot;,method=&quot;GET&quot;} 3
+http_request_duration_ms_sum{method=&quot;GET&quot;,route=&quot;/&quot;,code=&quot;304&quot;} 415
+http_request_duration_ms_count{method=&quot;GET&quot;,route=&quot;/&quot;,code=&quot;304&quot;} 3
+http_request_duration_ms_bucket{le=&quot;0.1&quot;,code=&quot;500&quot;,route=&quot;/bad&quot;,method=&quot;GET&quot;} 0
+http_request_duration_ms_bucket{le=&quot;5&quot;,code=&quot;500&quot;,route=&quot;/bad&quot;,method=&quot;GET&quot;} 1
+http_request_duration_ms_bucket{le=&quot;15&quot;,code=&quot;500&quot;,route=&quot;/bad&quot;,method=&quot;GET&quot;} 1
+http_request_duration_ms_bucket{le=&quot;50&quot;,code=&quot;500&quot;,route=&quot;/bad&quot;,method=&quot;GET&quot;} 1
+http_request_duration_ms_bucket{le=&quot;100&quot;,code=&quot;500&quot;,route=&quot;/bad&quot;,method=&quot;GET&quot;} 1
+http_request_duration_ms_bucket{le=&quot;200&quot;,code=&quot;500&quot;,route=&quot;/bad&quot;,method=&quot;GET&quot;} 1
+http_request_duration_ms_bucket{le=&quot;300&quot;,code=&quot;500&quot;,route=&quot;/bad&quot;,method=&quot;GET&quot;} 1
+http_request_duration_ms_bucket{le=&quot;400&quot;,code=&quot;500&quot;,route=&quot;/bad&quot;,method=&quot;GET&quot;} 1
+http_request_duration_ms_bucket{le=&quot;500&quot;,code=&quot;500&quot;,route=&quot;/bad&quot;,method=&quot;GET&quot;} 1
+http_request_duration_ms_bucket{le=&quot;+Inf&quot;,code=&quot;500&quot;,route=&quot;/bad&quot;,method=&quot;GET&quot;} 1
+http_request_duration_ms_sum{method=&quot;GET&quot;,route=&quot;/bad&quot;,code=&quot;500&quot;} 1
+http_request_duration_ms_count{method=&quot;GET&quot;,route=&quot;/bad&quot;,code=&quot;500&quot;} 1
+http_request_duration_ms_bucket{le=&quot;0.1&quot;,code=&quot;304&quot;,route=&quot;/checkout&quot;,method=&quot;GET&quot;} 8
+http_request_duration_ms_bucket{le=&quot;5&quot;,code=&quot;304&quot;,route=&quot;/checkout&quot;,method=&quot;GET&quot;} 12
+http_request_duration_ms_bucket{le=&quot;15&quot;,code=&quot;304&quot;,route=&quot;/checkout&quot;,method=&quot;GET&quot;} 12
+http_request_duration_ms_bucket{le=&quot;50&quot;,code=&quot;304&quot;,route=&quot;/checkout&quot;,method=&quot;GET&quot;} 12
+http_request_duration_ms_bucket{le=&quot;100&quot;,code=&quot;304&quot;,route=&quot;/checkout&quot;,method=&quot;GET&quot;} 12
+http_request_duration_ms_bucket{le=&quot;200&quot;,code=&quot;304&quot;,route=&quot;/checkout&quot;,method=&quot;GET&quot;} 12
+http_request_duration_ms_bucket{le=&quot;300&quot;,code=&quot;304&quot;,route=&quot;/checkout&quot;,method=&quot;GET&quot;} 12
+http_request_duration_ms_bucket{le=&quot;400&quot;,code=&quot;304&quot;,route=&quot;/checkout&quot;,method=&quot;GET&quot;} 12
+http_request_duration_ms_bucket{le=&quot;500&quot;,code=&quot;304&quot;,route=&quot;/checkout&quot;,method=&quot;GET&quot;} 12
+http_request_duration_ms_bucket{le=&quot;+Inf&quot;,code=&quot;304&quot;,route=&quot;/checkout&quot;,method=&quot;GET&quot;} 12
+http_request_duration_ms_sum{method=&quot;GET&quot;,route=&quot;/checkout&quot;,code=&quot;304&quot;} 4
+http_request_duration_ms_count{method=&quot;GET&quot;,route=&quot;/checkout&quot;,code=&quot;304&quot;} 12
+</pre></div>
+
+
+<p>Besides the default set of metrics related to resource utilization by the application process, we can see the additional metrics:</p>
+<ul>
+<li><code>checkouts_total</code> by payment_method</li>
+<li><code>http_request_duration_ms_bucket</code> by percentile buckets and by route</li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../logging/" title="2. Node.js logging and Elastic stack integration" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                2. Node.js logging and Elastic stack integration
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../Prometheus-Grafana/" title="4. Prometheus and Grafana configuration" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                4. Prometheus and Grafana configuration
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.b41f3d20.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

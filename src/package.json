@@ -1,0 +1,23 @@
+{
+  "name": "example-prometheus",
+  "version": "1.0.0",
+  "description": "Prometheus example",
+  "scripts": {
+    "start": "node"
+  },
+  "dependencies": {
+    "express": "4.15.3",
+    "prom-client": "9.1.1"
+  },
+  "devDependencies": {
+    "eslint": "3.19.0",
+    "eslint-config-airbnb-base": "11.2.0",
+    "eslint-plugin-import": "2.2.0",
+    "eslint-plugin-promise": "3.5.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.ibm.com/rafal-szypulka/node-prom.git"
+  }
+}

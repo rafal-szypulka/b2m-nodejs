@@ -1,0 +1,19 @@
+site_name: Build to Manage - Node.js application monitoring and logging lab
+repo_url: https://github.ibm.com/rafal-szypulka/b2m-nodejs
+site_url: ttps://github.ibm.com/rafal-szypulka/b2m-nodejs/docs
+nav:
+    - 1. Introduction: index.md
+    - 2. Node.js logging and Elastic stack integration: logging.md
+    - 3. Node.js monitoring instrumentation: monitoring-instrumentation.md
+    - 4. Prometheus and Grafana configuration: Prometheus-Grafana.md
+    - 5. Deploy to IBM Cloud Private: ICP.md
+    - About: about.md
+theme:
+  name: 'material'
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: true
+

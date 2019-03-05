@@ -1,0 +1,688 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="logging/">
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
+    
+    
+      
+        <title>2. Node.js logging and Elastic stack integration - Build to Manage - Node.js application monitoring lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.572ca0f0.css">
+      
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.8c900955.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#configure-the-logging-library" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="ttps://github.ibm.com/rafal-szypulka/b2m-nodejs/docs" title="Build to Manage - Node.js application monitoring lab" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Build to Manage - Node.js application monitoring lab
+              </span>
+              <span class="md-header-nav__topic">
+                2. Node.js logging and Elastic stack integration
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.ibm.com/rafal-szypulka/b2m-nodejs" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      Github
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="ttps://github.ibm.com/rafal-szypulka/b2m-nodejs/docs" title="Build to Manage - Node.js application monitoring lab" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Build to Manage - Node.js application monitoring lab
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.ibm.com/rafal-szypulka/b2m-nodejs" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      Github
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="1. Introduction" class="md-nav__link">
+      1. Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        2. Node.js logging and Elastic stack integration
+      </label>
+    
+    <a href="./" title="2. Node.js logging and Elastic stack integration" class="md-nav__link md-nav__link--active">
+      2. Node.js logging and Elastic stack integration
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configure-the-logging-library" title="Configure the logging library" class="md-nav__link">
+    Configure the logging library
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-implementation-of-logging" title="Example implementation of logging" class="md-nav__link">
+    Example implementation of logging
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-docker-image-for-nodejs-application" title="Create a Docker image for node.js application" class="md-nav__link">
+    Create a Docker image for node.js application
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integrate-with-the-elastic-stack" title="Integrate with the Elastic stack" class="md-nav__link">
+    Integrate with the Elastic stack
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deploy-a-local-elastic-stack-with-docker-compose" title="Deploy a local Elastic stack with Docker Compose" class="md-nav__link">
+    Deploy a local Elastic stack with Docker Compose
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-nodejs-application-container-and-forward-logs-to-elastic-stack" title="Start node.js application container and forward logs to Elastic stack" class="md-nav__link">
+    Start node.js application container and forward logs to Elastic stack
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../monitoring-instrumentation/" title="3. Node.js monitoring instrumentation" class="md-nav__link">
+      3. Node.js monitoring instrumentation
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../Prometheus-Grafana/" title="4. Prometheus and Grafana configuration" class="md-nav__link">
+      4. Prometheus and Grafana configuration
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../ICP/" title="5. Deploy to IBM Cloud Private" class="md-nav__link">
+      5. Deploy to IBM Cloud Private
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../about/" title="About" class="md-nav__link">
+      About
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configure-the-logging-library" title="Configure the logging library" class="md-nav__link">
+    Configure the logging library
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-implementation-of-logging" title="Example implementation of logging" class="md-nav__link">
+    Example implementation of logging
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-docker-image-for-nodejs-application" title="Create a Docker image for node.js application" class="md-nav__link">
+    Create a Docker image for node.js application
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integrate-with-the-elastic-stack" title="Integrate with the Elastic stack" class="md-nav__link">
+    Integrate with the Elastic stack
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deploy-a-local-elastic-stack-with-docker-compose" title="Deploy a local Elastic stack with Docker Compose" class="md-nav__link">
+    Deploy a local Elastic stack with Docker Compose
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-nodejs-application-container-and-forward-logs-to-elastic-stack" title="Start node.js application container and forward logs to Elastic stack" class="md-nav__link">
+    Start node.js application container and forward logs to Elastic stack
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>2. Node.js logging and Elastic stack integration</h1>
+                
+                <p>A production service should have both logging and monitoring. Monitoring provides a real-time and historical view on the system and application state, and alerts you in case a situation is met. In most cases, a monitoring alert is simply a trigger for you to start an investigation. Monitoring shows the symptoms of problems. Logs provide details and state on individual transactions, so you can fully understand the cause of problems.</p>
+<p>Logs provide visibility into the behavior of a running app, they are one of the most fundamental tools for debugging and finding issues within your application. If structured correctly, logs can contain a wealth of information about a specific event. Logs can tell us not only when the event took place, but also provide us with details as to the root cause. Therefore, it is important that the log entries are readable to humans and machines. </p>
+<p>According to the 12-factor application guidelines (https://12factor.net/), logs are the stream of aggregated, time-ordered events. A twelve-factor app never concerns itself with routing or storage of its output stream. It should not attempt to write to or manage logfiles. Instead, each running process writes its event stream, unbuffered, to stdout. If you deviate from these guidelines, make sure that you address the operational needs for logfiles, such as logging to local files and applying log rotation policies.</p>
+<h2 id="configure-the-logging-library">Configure the logging library<a class="headerlink" href="#configure-the-logging-library" title="Permanent link">&para;</a></h2>
+<p>Go to the directory where the <code>server.js</code> file is located and run the following command to install and configure a <a href="http://github.com/winstonjs/winston">winston</a> logging library for node.js.</p>
+<div class="codehilite"><pre><span></span>cd &lt;clonned-b2m-nodjs-github-repo-directory&gt;/src
+npm install --save winston
+</pre></div>
+
+
+<p>this should add the following dependency to the <code>package.json</code>:</p>
+<div class="codehilite"><pre><span></span>    &quot;winston&quot;: &quot;^3.2.1&quot;
+</pre></div>
+
+
+<h2 id="example-implementation-of-logging">Example implementation of logging<a class="headerlink" href="#example-implementation-of-logging" title="Permanent link">&para;</a></h2>
+<p>Add the following line at the beginning of <code>server.js</code> to load the <code>winston</code> module:</p>
+<div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="p">{</span> <span class="nx">createLogger</span><span class="p">,</span> <span class="nx">format</span><span class="p">,</span> <span class="nx">transports</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;winston&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>then create the <code>logger</code> object:</p>
+<div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">logger</span> <span class="o">=</span> <span class="nx">createLogger</span><span class="p">({</span>
+  <span class="nx">level</span><span class="o">:</span> <span class="s1">&#39;debug&#39;</span><span class="p">,</span>
+  <span class="nx">format</span><span class="o">:</span> <span class="nx">format</span><span class="p">.</span><span class="nx">combine</span><span class="p">(</span>
+    <span class="nx">format</span><span class="p">.</span><span class="nx">timestamp</span><span class="p">({</span>
+      <span class="nx">format</span><span class="o">:</span> <span class="s2">&quot;YYYY-MM-DD&#39;T&#39;HH:mm:ss.SSSZ&quot;</span>
+    <span class="p">}),</span>
+    <span class="nx">format</span><span class="p">.</span><span class="nx">json</span><span class="p">()</span>
+  <span class="p">),</span>
+  <span class="nx">transports</span><span class="o">:</span> <span class="p">[</span><span class="k">new</span> <span class="nx">transports</span><span class="p">.</span><span class="nx">Console</span><span class="p">()]</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>The configuration above specifies timestamp field format and enables sending logs in <code>json</code> format to STDOUT.
+Timestamp should include the time zone information and be precise down to miliseconds. </p>
+<p>Whenever you want to generate a log entry, just use the <code>logger</code> object wth level specified methods: <strong>error</strong>, <strong>warn</strong>, <strong>info</strong>, <strong>verbose</strong>, <strong>debug</strong></p>
+<div class="codehilite"><pre><span></span><span class="nx">msg</span> <span class="o">=</span> <span class="s1">&#39;RSAP0010E: Severe problem detected&#39;</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+<span class="nx">msg</span> <span class="o">=</span> <span class="s1">&#39;RSAP0001I: Transaction OK&#39;</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+</pre></div>
+
+
+<p>You can add also additional metadata like <code>errorCode</code> or <code>transactionTime</code> that can be useful in log analytics.</p>
+<p>Extend your logger statement like on the example below. Additional metada will be used later in our log analytics dashboard.</p>
+<div class="codehilite"><pre><span></span><span class="nx">msg</span> <span class="o">=</span> <span class="s1">&#39;RSAP0010E: Severe problem detected&#39;</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">msg</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;errorCode&quot;</span><span class="o">:</span> <span class="s2">&quot;RSAP0010E&quot;</span><span class="p">,</span> <span class="s2">&quot;transactionTime&quot;</span><span class="o">:</span> <span class="nx">delay</span><span class="p">})</span>
+</pre></div>
+
+
+<p>Example STDOUT:</p>
+<div class="codehilite"><pre><span></span><span class="p">{</span><span class="nt">&quot;errCode&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0001I&quot;</span><span class="p">,</span><span class="nt">&quot;transactionTime&quot;</span><span class="p">:</span><span class="mi">81</span><span class="p">,</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;info&quot;</span><span class="p">,</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0001I: Transaction OK&quot;</span><span class="p">,</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2019-02-27T07:34:49.625Z&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;errCode&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0010E&quot;</span><span class="p">,</span><span class="nt">&quot;transactionTime&quot;</span><span class="p">:</span><span class="mi">76</span><span class="p">,</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;error&quot;</span><span class="p">,</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0010E: Severe problem detected&quot;</span><span class="p">,</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2019-02-27T07:34:50.008Z&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;errCode&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0001I&quot;</span><span class="p">,</span><span class="nt">&quot;transactionTime&quot;</span><span class="p">:</span><span class="mi">22</span><span class="p">,</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;info&quot;</span><span class="p">,</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0001I: Transaction OK&quot;</span><span class="p">,</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2019-02-27T07:34:50.325Z&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;errCode&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0001I&quot;</span><span class="p">,</span><span class="nt">&quot;transactionTime&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;info&quot;</span><span class="p">,</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0001I: Transaction OK&quot;</span><span class="p">,</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2019-02-27T07:34:50.620Z&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;errCode&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0001I&quot;</span><span class="p">,</span><span class="nt">&quot;transactionTime&quot;</span><span class="p">:</span><span class="mi">96</span><span class="p">,</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;info&quot;</span><span class="p">,</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0001I: Transaction OK&quot;</span><span class="p">,</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2019-02-27T07:34:50.871Z&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;errCode&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0001I&quot;</span><span class="p">,</span><span class="nt">&quot;transactionTime&quot;</span><span class="p">:</span><span class="mi">62</span><span class="p">,</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;info&quot;</span><span class="p">,</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0001I: Transaction OK&quot;</span><span class="p">,</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2019-02-27T07:34:51.156Z&quot;</span><span class="p">}</span>
+</pre></div>
+
+
+<p>Restart the application (<code>ctrl-c</code> in the terminal window and start with <code>npm start server.js</code> after every code change). After testing of the logging features, stop the application.</p>
+<h2 id="create-a-docker-image-for-nodejs-application">Create a Docker image for node.js application<a class="headerlink" href="#create-a-docker-image-for-nodejs-application" title="Permanent link">&para;</a></h2>
+<p>Use provided <code>Dockerfile</code> to build application container:</p>
+<div class="codehilite"><pre><span></span>cd &lt;clonned-b2m-nodjs-github-repo-directory&gt;/src
+docker build -t b2m-nodejs .
+</pre></div>
+
+
+<h2 id="integrate-with-the-elastic-stack">Integrate with the Elastic stack<a class="headerlink" href="#integrate-with-the-elastic-stack" title="Permanent link">&para;</a></h2>
+<p>The following procedure shows how to send the application logs to the local Elastic stack running in Docker.</p>
+<h3 id="deploy-a-local-elastic-stack-with-docker-compose">Deploy a local Elastic stack with Docker Compose<a class="headerlink" href="#deploy-a-local-elastic-stack-with-docker-compose" title="Permanent link">&para;</a></h3>
+<p>Steps 1-3 are already done for the lab VM and <code>docker-elk</code> repo is located in <code>/root/docker-elk</code>.</p>
+<p>1). Clone the <code>docker-elk</code> repository from Github:</p>
+<div class="codehilite"><pre><span></span>git clone https://github.com/deviantony/docker-elk
+</pre></div>
+
+
+<p>2). Replace the Logstash configuration file <code>docker-elk/logstash/pipeline/logstash.conf</code> with the following code:</p>
+<div class="codehilite"><pre><span></span>input {
+    gelf { port =&gt; 5000 }
+}
+
+filter {
+    json { source =&gt; &quot;message&quot; }
+}
+
+output {
+    elasticsearch {
+        hosts =&gt; &quot;elasticsearch:9200&quot;
+    }
+    stdout { codec =&gt; rubydebug }
+}
+</pre></div>
+
+
+<p>The above will reconfigure logstash to use <code>gelf</code> (Graylog Extended Log Forma) protocol supported by Docker log driver, so we can directly stream application logs to Logstash using <code>gelf</code>.</p>
+<p>3). Edit <code>docker-elk\docker-compose.yml</code> and modify one line:</p>
+<p>from:</p>
+<div class="codehilite"><pre><span></span>      - &quot;5000:5000&quot;
+</pre></div>
+
+
+<p>to</p>
+<div class="codehilite"><pre><span></span>      - &quot;5000:5000\udp&quot;
+</pre></div>
+
+
+<p>The change above will tell <code>docker-compose</code> to expose <code>udp</code> port <code>5000</code> instead of default <code>tcp</code> (<code>gelf</code> protocol uses <code>udp</code>).</p>
+<p>4). Start Elastic stack:</p>
+<div class="codehilite"><pre><span></span>cd &lt;cloned-docker-elk-repo-dir&gt;
+docker-compose up -d
+</pre></div>
+
+
+<p>Expected output:</p>
+<div class="codehilite"><pre><span></span>Creating network &quot;docker-elk_elk&quot; with driver &quot;bridge&quot;
+Creating docker-elk_elasticsearch_1 ... done
+Creating docker-elk_kibana_1        ... done
+Creating docker-elk_logstash_1      ... done
+</pre></div>
+
+
+<p>5). Verify you can access Kibana on <code>http://localhost:5601</code></p>
+<h3 id="start-nodejs-application-container-and-forward-logs-to-elastic-stack">Start node.js application container and forward logs to Elastic stack<a class="headerlink" href="#start-nodejs-application-container-and-forward-logs-to-elastic-stack" title="Permanent link">&para;</a></h3>
+<p>Make sure the Start application container with this command:</p>
+<div class="codehilite"><pre><span></span>docker run --name btm-nodejs -d -p 3001:3001 --log-driver=gelf \
+--log-opt gelf-address=udp://localhost:5000 b2m-nodejs
+</pre></div>
+
+
+<p>Simulate a couple fo transactions using <code>Firefox</code> or <code>curl</code> by accessing <code>http://localhost:3001/checkout</code> URL and check if you can see application log records in Kibana.</p>
+<p>In the lab environment, the Elastic stack has been preconfigured, so the example Dashboard and Visualizations should be available in Kibana out of the box.</p>
+<p>You can also import Kibana configuration using provided <code>btm-nodejs-kibana.json</code>:</p>
+<ul>
+<li>Go to Kibana: <code>http://localhost:5601</code></li>
+<li>Click on Management -&gt; Saved Objects -&gt; Import</li>
+<li>Select <code>btm-nodejs-kibana.json</code></li>
+</ul>
+<p>Simulate a couple fo transactions using <code>Firefox</code> or <code>curl</code> by accessing <code>http://localhost:3001/checkout</code> and check the Kibana dashboard: <code>BTM Node.js</code></p>
+<p>It should be similar to:
+<img alt="" src="../images/kibana.png" /></p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href=".." title="1. Introduction" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                1. Introduction
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../monitoring-instrumentation/" title="3. Node.js monitoring instrumentation" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                3. Node.js monitoring instrumentation
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.b41f3d20.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

@@ -1,0 +1,879 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="Prometheus-Grafana/">
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
+    
+    
+      
+        <title>4. Prometheus and Grafana configuration - Build to Manage - Node.js application monitoring lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.572ca0f0.css">
+      
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.8c900955.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#deploy-a-local-prometheus-and-grafana-stack-with-docker-compose" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="ttps://github.ibm.com/rafal-szypulka/b2m-nodejs/docs" title="Build to Manage - Node.js application monitoring lab" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Build to Manage - Node.js application monitoring lab
+              </span>
+              <span class="md-header-nav__topic">
+                4. Prometheus and Grafana configuration
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.ibm.com/rafal-szypulka/b2m-nodejs" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      Github
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="ttps://github.ibm.com/rafal-szypulka/b2m-nodejs/docs" title="Build to Manage - Node.js application monitoring lab" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Build to Manage - Node.js application monitoring lab
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.ibm.com/rafal-szypulka/b2m-nodejs" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      Github
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="1. Introduction" class="md-nav__link">
+      1. Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../logging/" title="2. Node.js logging and Elastic stack integration" class="md-nav__link">
+      2. Node.js logging and Elastic stack integration
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../monitoring-instrumentation/" title="3. Node.js monitoring instrumentation" class="md-nav__link">
+      3. Node.js monitoring instrumentation
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        4. Prometheus and Grafana configuration
+      </label>
+    
+    <a href="./" title="4. Prometheus and Grafana configuration" class="md-nav__link md-nav__link--active">
+      4. Prometheus and Grafana configuration
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-a-local-prometheus-and-grafana-stack-with-docker-compose" title="Deploy a local Prometheus and Grafana stack with Docker Compose" class="md-nav__link">
+    Deploy a local Prometheus and Grafana stack with Docker Compose
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-example-promql-queries" title="Run example PromQL queries" class="md-nav__link">
+    Run example PromQL queries
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#throughput" title="Throughput" class="md-nav__link">
+    Throughput
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-rate" title="Error rate" class="md-nav__link">
+    Error rate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#request-per-minute" title="Request Per Minute" class="md-nav__link">
+    Request Per Minute
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response-time" title="Response Time" class="md-nav__link">
+    Response Time
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apdex" title="Apdex" class="md-nav__link">
+    Apdex
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95th-response-time" title="95th Response Time" class="md-nav__link">
+    95th Response Time
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#median-response-time" title="Median Response Time" class="md-nav__link">
+    Median Response Time
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#average-response-time" title="Average Response Time" class="md-nav__link">
+    Average Response Time
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-usage" title="Memory Usage" class="md-nav__link">
+    Memory Usage
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#average-memory-usage" title="Average Memory Usage" class="md-nav__link">
+    Average Memory Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-prometheus-alert" title="Configure Prometheus alert" class="md-nav__link">
+    Configure Prometheus alert
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reload-config" title="Reload config" class="md-nav__link">
+    Reload config
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-the-prometheus-datasource-in-grafana" title="Set the Prometheus datasource in Grafana" class="md-nav__link">
+    Set the Prometheus datasource in Grafana
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-dashboard" title="Configure dashboard" class="md-nav__link">
+    Configure dashboard
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../ICP/" title="5. Deploy to IBM Cloud Private" class="md-nav__link">
+      5. Deploy to IBM Cloud Private
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../about/" title="About" class="md-nav__link">
+      About
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-a-local-prometheus-and-grafana-stack-with-docker-compose" title="Deploy a local Prometheus and Grafana stack with Docker Compose" class="md-nav__link">
+    Deploy a local Prometheus and Grafana stack with Docker Compose
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-example-promql-queries" title="Run example PromQL queries" class="md-nav__link">
+    Run example PromQL queries
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#throughput" title="Throughput" class="md-nav__link">
+    Throughput
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-rate" title="Error rate" class="md-nav__link">
+    Error rate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#request-per-minute" title="Request Per Minute" class="md-nav__link">
+    Request Per Minute
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response-time" title="Response Time" class="md-nav__link">
+    Response Time
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apdex" title="Apdex" class="md-nav__link">
+    Apdex
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95th-response-time" title="95th Response Time" class="md-nav__link">
+    95th Response Time
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#median-response-time" title="Median Response Time" class="md-nav__link">
+    Median Response Time
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#average-response-time" title="Average Response Time" class="md-nav__link">
+    Average Response Time
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-usage" title="Memory Usage" class="md-nav__link">
+    Memory Usage
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#average-memory-usage" title="Average Memory Usage" class="md-nav__link">
+    Average Memory Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-prometheus-alert" title="Configure Prometheus alert" class="md-nav__link">
+    Configure Prometheus alert
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reload-config" title="Reload config" class="md-nav__link">
+    Reload config
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-the-prometheus-datasource-in-grafana" title="Set the Prometheus datasource in Grafana" class="md-nav__link">
+    Set the Prometheus datasource in Grafana
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-dashboard" title="Configure dashboard" class="md-nav__link">
+    Configure dashboard
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>4. Prometheus and Grafana configuration</h1>
+                
+                <h3 id="deploy-a-local-prometheus-and-grafana-stack-with-docker-compose">Deploy a local Prometheus and Grafana stack with Docker Compose<a class="headerlink" href="#deploy-a-local-prometheus-and-grafana-stack-with-docker-compose" title="Permanent link">&para;</a></h3>
+<p>Steps 1-2 are already done for the lab VM and <code>prometheus</code> repo is located in <code>/root/prometheus</code>.</p>
+<p>1). Clone the <code>prometheus</code> docker compose repository from Github:</p>
+<div class="codehilite"><pre><span></span>git clone https://github.com/vegasbrianc/prometheus
+</pre></div>
+
+
+<p>2). Add scraping job definition to the Prometheus configuration file <code>prometheus/prometheus/prometheus.yml</code> by adding (uncommenting in the lab VM) the following code within <code>scrape_config</code> section:</p>
+<div class="codehilite"><pre><span></span>  - job_name: &#39;btm-nodejs&#39;
+    scrape_interval: 5s
+    static_configs:
+    - targets: [&#39;xxx.xxx.xxx.xxx:3001&#39;]
+      labels:
+        service: &#39;my-service&#39;
+        group: &#39;production&#39;
+</pre></div>
+
+
+<p>replace xxx.xxx.xxx.xxx with your own host machine's IP.</p>
+<p>3). Start Prometheus &amp; Grafana stack:</p>
+<div class="codehilite"><pre><span></span>cd &lt;cloned-prometheus-docker-compose-repo-dir&gt;
+docker-compose up -d
+</pre></div>
+
+
+<p>Expected output:</p>
+<div class="codehilite"><pre><span></span>Creating network &quot;prometheus_back-tier&quot; with the default driver
+Creating network &quot;prometheus_front-tier&quot; with the default driver
+Creating prometheus_cadvisor_1      ... done
+Creating prometheus_alertmanager_1  ... done
+Creating prometheus_node-exporter_1 ... done
+Creating prometheus_prometheus_1    ... done
+Creating prometheus_grafana_1       ... done
+</pre></div>
+
+
+<p>Verify that Prometheus started via: <a href="http://localhost:9090/graph">http://localhost:9090</a></p>
+<h2 id="run-example-promql-queries">Run example PromQL queries<a class="headerlink" href="#run-example-promql-queries" title="Permanent link">&para;</a></h2>
+<h3 id="throughput">Throughput<a class="headerlink" href="#throughput" title="Permanent link">&para;</a></h3>
+<h4 id="error-rate">Error rate<a class="headerlink" href="#error-rate" title="Permanent link">&para;</a></h4>
+<p>Range[0,1]: number of 5xx requests / total number of requests</p>
+<div class="codehilite"><pre><span></span>sum(increase(http_request_duration_ms_count{code=~&quot;^5..$&quot;}[1m])) /  sum(increase(http_request_duration_ms_count[1m]))
+</pre></div>
+
+
+<h4 id="request-per-minute">Request Per Minute<a class="headerlink" href="#request-per-minute" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span>sum(rate(http_request_duration_ms_count[1m])) by (service, route, method, code)  * 60
+</pre></div>
+
+
+<h3 id="response-time">Response Time<a class="headerlink" href="#response-time" title="Permanent link">&para;</a></h3>
+<h4 id="apdex">Apdex<a class="headerlink" href="#apdex" title="Permanent link">&para;</a></h4>
+<p><a href="https://en.wikipedia.org/wiki/Apdex">Apdex</a> score approximation: <code>100ms</code> target and <code>300ms</code> tolerated response time</p>
+<div class="codehilite"><pre><span></span>(sum(rate(http_request_duration_ms_bucket{le=&quot;100&quot;}[1m])) by (service) + sum(rate(http_request_duration_ms_bucket{le=&quot;300&quot;}[1m])) by (service)
+) / 2 / sum(rate(http_request_duration_ms_count[1m])) by (service)
+</pre></div>
+
+
+<blockquote>
+<p>Note that we divide the sum of both buckets. The reason is that the histogram buckets are cumulative. The le="100" bucket is also contained in the le="300" bucket; dividing it by 2 corrects for that. - <a href="https://prometheus.io/docs/practices/histograms/#apdex-score">Prometheus docs</a></p>
+</blockquote>
+<h4 id="95th-response-time">95th Response Time<a class="headerlink" href="#95th-response-time" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span>histogram_quantile(0.95, sum(rate(http_request_duration_ms_bucket[1m])) by (le, service, route, method))
+</pre></div>
+
+
+<h4 id="median-response-time">Median Response Time<a class="headerlink" href="#median-response-time" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span>histogram_quantile(0.5, sum(rate(http_request_duration_ms_bucket[1m])) by (le, service, route, method))
+</pre></div>
+
+
+<h4 id="average-response-time">Average Response Time<a class="headerlink" href="#average-response-time" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span>avg(rate(http_request_duration_ms_sum[1m]) / rate(http_request_duration_ms_count[1m])) by (service, route, method, code)
+</pre></div>
+
+
+<p><img alt="Prometheus - Data" src="../images/prometheus-data.png" /></p>
+<h3 id="memory-usage">Memory Usage<a class="headerlink" href="#memory-usage" title="Permanent link">&para;</a></h3>
+<h4 id="average-memory-usage">Average Memory Usage<a class="headerlink" href="#average-memory-usage" title="Permanent link">&para;</a></h4>
+<p>In Megabyte.</p>
+<div class="codehilite"><pre><span></span>avg(nodejs_external_memory_bytes / 1024 / 1024) by (service)
+</pre></div>
+
+
+<h2 id="configure-prometheus-alert">Configure Prometheus alert<a class="headerlink" href="#configure-prometheus-alert" title="Permanent link">&para;</a></h2>
+<p>Alerting rules allows to define alert conditions based on Prometheus expression language expressions and to send notifications about firing alerts to an external service. In this lab we will configure one alerting rule for median response time higer than 100ms.</p>
+<p><strong>Lab instruction:</strong></p>
+<p>Add the following alert rule to the <code>alert.rules</code> file. In the lab VM it is located in <code>/root/prometheus/prometheus/alert.rules</code></p>
+<div class="codehilite"><pre><span></span>  - alert: APIHighMedianResponseTime
+    expr: histogram_quantile(0.5, sum by(le, service, route, method) (rate(http_request_duration_ms_bucket[1m])))
+      &gt; 30
+    for: 1m
+    annotations:
+      description: &#39;{{ $labels.service }}, {{ $labels.method }} {{ $labels.route }}
+        has a median response time above 100ms (current value: {{ $value }}ms)&#39;
+      summary: High median response time on {{ $labels.service }} and {{ $labels.method
+        }} {{ $labels.route }}
+</pre></div>
+
+
+<h2 id="reload-config">Reload config<a class="headerlink" href="#reload-config" title="Permanent link">&para;</a></h2>
+<p>Necessary when you modified Prometheus configuration.</p>
+<div class="codehilite"><pre><span></span>curl -X POST http://localhost:9090/-/reload
+</pre></div>
+
+
+<p>Alerts can be listed via Prometheus UI: <a href="http://localhost:9090/alerts">http://localhost:9090/alerts</a></p>
+<p>States of active alerts: </p>
+<ul>
+<li><code>pending</code>:</li>
+</ul>
+<p><img alt="Prometheus - Alert Pending" src="../images/prometheus-alert-pending.png" /></p>
+<ul>
+<li><code>firing</code>:</li>
+</ul>
+<p><img alt="Prometheus - Alert Firing" src="../images/prometheus-alert-firing.png" /></p>
+<h2 id="set-the-prometheus-datasource-in-grafana">Set the Prometheus datasource in Grafana<a class="headerlink" href="#set-the-prometheus-datasource-in-grafana" title="Permanent link">&para;</a></h2>
+<p><a href="http://docs.grafana.org/features/datasources/prometheus/#adding-the-data-source-to-grafana">Create</a> a Grafana datasource with this settings:</p>
+<ul>
+<li>name: DS_PROMETHEUS</li>
+<li>type: prometheus</li>
+<li>url: http://localhost:9090</li>
+<li>access: browser</li>
+</ul>
+<p>Or use this curl request:</p>
+<div class="codehilite"><pre><span></span>curl <span class="s1">&#39;http://admin:admin@localhost:3000/api/datasources&#39;</span> <span class="se">\</span>
+-H <span class="s1">&#39;Content-Type: application/json;charset=UTF-8&#39;</span> <span class="se">\</span>
+-H <span class="s1">&#39;Accept: application/json, text/plain, */*&#39;</span> <span class="se">\</span>
+--data-binary <span class="s1">&#39;{&quot;name&quot;:&quot;DS_PROMETHEUS&quot;,&quot;type&quot;:&quot;prometheus&quot;,&quot;url&quot;:&quot;http://localhost:9090&quot;,&quot;access&quot;:&quot;direct&quot;,&quot;jsonData&quot;:{&quot;keepCookies&quot;:[]},&quot;secureJsonFields&quot;:{}}&#39;</span> <span class="se">\</span>
+--compressed
+</pre></div>
+
+
+<h2 id="configure-dashboard">Configure dashboard<a class="headerlink" href="#configure-dashboard" title="Permanent link">&para;</a></h2>
+<p>Grafana Dashboard to <a href="http://docs.grafana.org/reference/export_import/#importing-a-dashboard">import</a>: <code>btm-nodejs-grafana.json</code>
+Or use this curl request:</p>
+<div class="codehilite"><pre><span></span>curl <span class="s1">&#39;http://admin:admin@localhost:3000/api/dashboards/import&#39;</span> <span class="se">\</span>
+-H <span class="s1">&#39;Accept-Encoding: gzip, deflate&#39;</span> <span class="se">\</span>
+-H <span class="s1">&#39;Content-Type: application/json;charset=UTF-8&#39;</span> <span class="se">\</span>
+-H <span class="s1">&#39;Accept: application/json, text/plain, */*&#39;</span> <span class="se">\</span>
+--data-binary <span class="s1">&#39;%{&lt;copy and paste btm-nodejs-grafana.json&gt;}&#39;</span> <span class="se">\</span>
+--compressed
+</pre></div>
+
+
+<p>Monitoring dashboard was created according to RED Method principles:</p>
+<ul>
+<li>Rate (<code>Thoughput</code> and <code>Checkouts</code> panels)</li>
+<li>Errors (<code>Error rate</code> panel)</li>
+<li>Duration (<code>95th Response Time</code> and <code>Median Response Time</code> panels)</li>
+</ul>
+<p><img alt="Grafana - Throughput" src="../images/grafana.png" /></p>
+<p>Review the configuration of each dashboard panel. Check the <a href="http://docs.grafana.org/reference/annotations/">annotation</a> settings.</p>
+<p><strong>Lab instruction:</strong>
+Define Apdex score chart using the following query:</p>
+<div class="codehilite"><pre><span></span>(sum(rate(http_request_duration_ms_bucket{le=&quot;100&quot;}[1m])) by (service) + sum(rate(http_request_duration_ms_bucket{le=&quot;300&quot;}[1m])) by (service)
+) / 2 / sum(rate(http_request_duration_ms_count[1m])) by (service)
+</pre></div>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../monitoring-instrumentation/" title="3. Node.js monitoring instrumentation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                3. Node.js monitoring instrumentation
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../ICP/" title="5. Deploy to IBM Cloud Private" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                5. Deploy to IBM Cloud Private
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.b41f3d20.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
