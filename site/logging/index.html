@@ -464,7 +464,7 @@
                 
                 <p>A production service should have both logging and monitoring. Monitoring provides a real-time and historical view on the system and application state, and alerts you in case a situation is met. In most cases, a monitoring alert is simply a trigger for you to start an investigation. Monitoring shows the symptoms of problems. Logs provide details and state on individual transactions, so you can fully understand the cause of problems.</p>
 <p>Logs provide visibility into the behavior of a running app, they are one of the most fundamental tools for debugging and finding issues within your application. If structured correctly, logs can contain a wealth of information about a specific event. Logs can tell us not only when the event took place, but also provide us with details as to the root cause. Therefore, it is important that the log entries are readable to humans and machines. </p>
-<p>According to the <a href="https://12factor.net/">12-factor</a> application guidelines, logs are the stream of aggregated, time-ordered events. A twelve-factor app never concerns itself with routing or storage of its output stream. It should not attempt to write to or manage logfiles. Instead, each running process writes its event stream, unbuffered, to stdout. If you deviate from these guidelines, make sure that you address the operational needs for logfiles, such as logging to local files and applying log rotation policies.</p>
+<p>According to the <a href="https://12factor.net/">12-factor</a> application guidelines, logs are the stream of aggregated, time-ordered events. A twelve-factor app never concerns itself with routing or storage of its output stream. It should not attempt to write to or manage log files. Instead, each running process writes its event stream, unbuffered, to stdout. If you deviate from these guidelines, make sure that you address the operational needs for log files, such as logging to local files and applying log rotation policies.</p>
 <h2 id="configure-the-logging-library">Configure the logging library<a class="headerlink" href="#configure-the-logging-library" title="Permanent link">&para;</a></h2>
 <p>Go to the directory where the <code>server.js</code> file is located and run the following command to install and configure a <a href="http://github.com/winstonjs/winston">winston</a> logging library for node.js.</p>
 <div class="codehilite"><pre><span></span>cd &lt;clonned-b2m-nodjs-github-repo-directory&gt;/src
@@ -498,8 +498,8 @@ npm install --save winston
 
 
 <p>The configuration above specifies timestamp field format and enables sending logs in <code>json</code> format to STDOUT.
-Timestamp should include the time zone information and be precise down to miliseconds. </p>
-<p>Whenever you want to generate a log entry, just use the <code>logger</code> object wth level specified methods: <strong>error</strong>, <strong>warn</strong>, <strong>info</strong>, <strong>verbose</strong>, <strong>debug</strong></p>
+Timestamp should include the time zone information and be precise down to milliseconds. </p>
+<p>Whenever you want to generate a log entry, just use the <code>logger</code> object with level specified methods: <strong>error</strong>, <strong>warn</strong>, <strong>info</strong>, <strong>verbose</strong>, <strong>debug</strong></p>
 <div class="codehilite"><pre><span></span><span class="nx">msg</span> <span class="o">=</span> <span class="s1">&#39;RSAP0010E: Severe problem detected&#39;</span>
 <span class="nx">logger</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
 <span class="nx">msg</span> <span class="o">=</span> <span class="s1">&#39;RSAP0001I: Transaction OK&#39;</span>
@@ -508,7 +508,7 @@ Timestamp should include the time zone information and be precise down to milise
 
 
 <p>You can add also additional metadata like <code>errorCode</code> or <code>transactionTime</code> that can be useful in log analytics.</p>
-<p>Extend your logger statement like on the example below. Additional metada will be used later in our log analytics dashboard.</p>
+<p>Extend your logger statement like on the example below. Additional metadata will be used later in our log analytics dashboard.</p>
 <div class="codehilite"><pre><span></span><span class="nx">msg</span> <span class="o">=</span> <span class="s1">&#39;RSAP0010E: Severe problem detected&#39;</span>
 <span class="nx">logger</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">msg</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;errorCode&quot;</span><span class="o">:</span> <span class="s2">&quot;RSAP0010E&quot;</span><span class="p">,</span> <span class="s2">&quot;transactionTime&quot;</span><span class="o">:</span> <span class="nx">delay</span><span class="p">})</span>
 </pre></div>

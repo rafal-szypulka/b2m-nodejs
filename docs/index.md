@@ -2,7 +2,7 @@
 
 During this lab we will instrument a sample Node.js application for logging to use with log analytics tools like [Elastic stack](http://elastic.co) as well as for monitoring with [Prometheus](https://prometheus.io) and [Grafana](https://grafana.com).
 
-Instrumentation of the aplication code for monitoring amd logging is part of the general concept we call **Build to Manage**. It specifies the practice of activities developers can do in order to provide manageability aspects as part of an application release.
+Instrumentation of the application code for monitoring and logging is part of the general concept we call **Build to Manage**. It specifies the practice of activities developers can do in order to provide manageability aspects as part of an application release.
 
 ## Lab outline
 
@@ -45,7 +45,7 @@ Most of the commands in this lab should be executed from the `b2m-nodejs/src` di
 cd b2m-nodejs/src
 ```
 
-Review the application code in `server.js`. Application simulates a transaction with randon response time on the following URL:
+Review the application code in `server.js`. Application simulates a transaction with random response time on the following URL:
 
 ```
 http://localhost:3001/checkout

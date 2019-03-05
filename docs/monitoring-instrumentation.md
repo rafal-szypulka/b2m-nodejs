@@ -147,7 +147,7 @@ Node.js Prometheus client library allows to define various types of Prometheus m
 
 In this lab we will define two custom metrics:
 
-- counter `checkouts_total` which will store a total numer of `checkout` requests
+- counter `checkouts_total` which will store a total number of `checkout` requests
 - histogram `http_request_duration_ms` which will store percentiles of application requests response time
 
 **Lab Instructions:**

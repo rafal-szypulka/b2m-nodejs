@@ -2,7 +2,7 @@ A production service should have both logging and monitoring. Monitoring provide
 
 Logs provide visibility into the behavior of a running app, they are one of the most fundamental tools for debugging and finding issues within your application. If structured correctly, logs can contain a wealth of information about a specific event. Logs can tell us not only when the event took place, but also provide us with details as to the root cause. Therefore, it is important that the log entries are readable to humans and machines. 
 
-According to the [12-factor](https://12factor.net/) application guidelines, logs are the stream of aggregated, time-ordered events. A twelve-factor app never concerns itself with routing or storage of its output stream. It should not attempt to write to or manage logfiles. Instead, each running process writes its event stream, unbuffered, to stdout. If you deviate from these guidelines, make sure that you address the operational needs for logfiles, such as logging to local files and applying log rotation policies.
+According to the [12-factor](https://12factor.net/) application guidelines, logs are the stream of aggregated, time-ordered events. A twelve-factor app never concerns itself with routing or storage of its output stream. It should not attempt to write to or manage log files. Instead, each running process writes its event stream, unbuffered, to stdout. If you deviate from these guidelines, make sure that you address the operational needs for log files, such as logging to local files and applying log rotation policies.
 
 
 ## Configure the logging library
@@ -41,9 +41,9 @@ const logger = createLogger({
 ```
 
 The configuration above specifies timestamp field format and enables sending logs in `json` format to STDOUT.
-Timestamp should include the time zone information and be precise down to miliseconds. 
+Timestamp should include the time zone information and be precise down to milliseconds. 
 
-Whenever you want to generate a log entry, just use the `logger` object wth level specified methods: **error**, **warn**, **info**, **verbose**, **debug**
+Whenever you want to generate a log entry, just use the `logger` object with level specified methods: **error**, **warn**, **info**, **verbose**, **debug**
 
 ```js
 msg = 'RSAP0010E: Severe problem detected'
@@ -54,7 +54,7 @@ logger.info(msg)
 
 You can add also additional metadata like `errorCode` or `transactionTime` that can be useful in log analytics.
 
-Extend your logger statement like on the example below. Additional metada will be used later in our log analytics dashboard.
+Extend your logger statement like on the example below. Additional metadata will be used later in our log analytics dashboard.
 
 ```js
 msg = 'RSAP0010E: Severe problem detected'
