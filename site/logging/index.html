@@ -38,7 +38,7 @@
     
     
       
-        <title>2. Node.js logging and Elastic stack integration - Build to Manage - Node.js application monitoring lab</title>
+        <title>2. Node.js logging and Elastic stack integration - Build to Manage - Node.js application monitoring and logging lab</title>
       
     
     
@@ -102,7 +102,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="ttps://github.ibm.com/rafal-szypulka/b2m-nodejs/docs" title="Build to Manage - Node.js application monitoring lab" class="md-header-nav__button md-logo">
+        <a href="ttps://github.ibm.com/rafal-szypulka/b2m-nodejs/docs" title="Build to Manage - Node.js application monitoring and logging lab" class="md-header-nav__button md-logo">
           
             <i class="md-icon"></i>
           
@@ -116,7 +116,7 @@
           
             
               <span class="md-header-nav__topic">
-                Build to Manage - Node.js application monitoring lab
+                Build to Manage - Node.js application monitoring and logging lab
               </span>
               <span class="md-header-nav__topic">
                 2. Node.js logging and Elastic stack integration
@@ -198,12 +198,12 @@
                   <div class="md-sidebar__inner">
                     <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="ttps://github.ibm.com/rafal-szypulka/b2m-nodejs/docs" title="Build to Manage - Node.js application monitoring lab" class="md-nav__button md-logo">
+    <a href="ttps://github.ibm.com/rafal-szypulka/b2m-nodejs/docs" title="Build to Manage - Node.js application monitoring and logging lab" class="md-nav__button md-logo">
       
         <i class="md-icon"></i>
       
     </a>
-    Build to Manage - Node.js application monitoring lab
+    Build to Manage - Node.js application monitoring and logging lab
   </label>
   
     <div class="md-nav__source">
@@ -464,7 +464,7 @@
                 
                 <p>A production service should have both logging and monitoring. Monitoring provides a real-time and historical view on the system and application state, and alerts you in case a situation is met. In most cases, a monitoring alert is simply a trigger for you to start an investigation. Monitoring shows the symptoms of problems. Logs provide details and state on individual transactions, so you can fully understand the cause of problems.</p>
 <p>Logs provide visibility into the behavior of a running app, they are one of the most fundamental tools for debugging and finding issues within your application. If structured correctly, logs can contain a wealth of information about a specific event. Logs can tell us not only when the event took place, but also provide us with details as to the root cause. Therefore, it is important that the log entries are readable to humans and machines. </p>
-<p>According to the 12-factor application guidelines (https://12factor.net/), logs are the stream of aggregated, time-ordered events. A twelve-factor app never concerns itself with routing or storage of its output stream. It should not attempt to write to or manage logfiles. Instead, each running process writes its event stream, unbuffered, to stdout. If you deviate from these guidelines, make sure that you address the operational needs for logfiles, such as logging to local files and applying log rotation policies.</p>
+<p>According to the <a href="https://12factor.net/">12-factor</a> application guidelines, logs are the stream of aggregated, time-ordered events. A twelve-factor app never concerns itself with routing or storage of its output stream. It should not attempt to write to or manage logfiles. Instead, each running process writes its event stream, unbuffered, to stdout. If you deviate from these guidelines, make sure that you address the operational needs for logfiles, such as logging to local files and applying log rotation policies.</p>
 <h2 id="configure-the-logging-library">Configure the logging library<a class="headerlink" href="#configure-the-logging-library" title="Permanent link">&para;</a></h2>
 <p>Go to the directory where the <code>server.js</code> file is located and run the following command to install and configure a <a href="http://github.com/winstonjs/winston">winston</a> logging library for node.js.</p>
 <div class="codehilite"><pre><span></span>cd &lt;clonned-b2m-nodjs-github-repo-directory&gt;/src
@@ -548,6 +548,15 @@ docker build -t b2m-nodejs .
 
 filter {
     json { source =&gt; &quot;message&quot; }
+    mutate {
+     gsub =&gt; [
+      &quot;level&quot;, &quot;info&quot;, 6,
+      &quot;level&quot;, &quot;error&quot;, 3
+     ]
+    }
+    mutate {
+     convert =&gt; { &quot;level&quot; =&gt; &quot;integer&quot; }
+    }
 }
 
 output {

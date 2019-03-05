@@ -1,1 +1,1 @@
-# [Build to Manage - Node.js application monitoring lab](https://pages.github.ibm.com/rafal-szypulka/b2m-nodejs)
+# [Build to Manage - Node.js application monitoring lab and logging lab](https://rafal-szypulka.github.io/b2m-nodejs)
