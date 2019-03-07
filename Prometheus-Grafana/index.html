@@ -641,22 +641,20 @@
                 <h3 id="deploy-a-local-prometheus-and-grafana-stack-with-docker-compose">Deploy a local Prometheus and Grafana stack with Docker Compose<a class="headerlink" href="#deploy-a-local-prometheus-and-grafana-stack-with-docker-compose" title="Permanent link">&para;</a></h3>
 <p>During this lab we will run the Prometheus and Grafana in  Docker Compose.
 Configuration for this lab is based on <a href="https://github.com/vegasbrianc/prometheus">https://github.com/vegasbrianc/prometheus</a>.
-Elastic stack docker compose project in located <code>/root/prometheus</code></p>
-<ol>
-<li>Add the scraping job definition to the Prometheus configuration file <code>/root/prometheus/prometheus/prometheus.yml</code> by adding (uncommenting in the lab VM) the following code within <code>scrape_config</code> section:</li>
-</ol>
+Prometheus docker compose project is located <code>/root/prometheus</code></p>
+<p>1). Add the scraping job definition to the Prometheus configuration file <code>/root/prometheus/prometheus/prometheus.yml</code> by adding (uncommenting in the lab VM) the following code within <code>scrape_config</code> section:</p>
 <div class="codehilite"><pre><span></span>  - job_name: &#39;btm-nodejs&#39;
-    scrape_interval: 5s
+    scrape_interval: 20s
     static_configs:
     - targets: [&#39;xxx.xxx.xxx.xxx:3001&#39;]
       labels:
-        service: &#39;my-service&#39;
+        service: &#39;btm-nodejs&#39;
         group: &#39;production&#39;
 </pre></div>
 
 
 <p>replace xxx.xxx.xxx.xxx with your own host machine's IP.</p>
-<p>3). Start Prometheus &amp; Grafana stack:</p>
+<p>2). Start Prometheus &amp; Grafana stack:</p>
 <div class="codehilite"><pre><span></span>cd /root/prometheus
 docker-compose up -d
 </pre></div>
@@ -757,6 +755,9 @@ Creating prometheus_grafana_1       ... done
 </ul>
 <p><img alt="Prometheus - Alert Firing" src="../images/prometheus-alert-firing.png" /></p>
 <h2 id="set-the-prometheus-datasource-in-grafana">Set the Prometheus datasource in Grafana<a class="headerlink" href="#set-the-prometheus-datasource-in-grafana" title="Permanent link">&para;</a></h2>
+<p>Logon to Grafana via <code>http://localhost:3000</code>
+- user: admin
+- password: foobar</p>
 <p>Verify the prometheus datasource configuration in Grafana. If it was not already configured, <a href="http://docs.grafana.org/features/datasources/prometheus/#adding-the-data-source-to-grafana">create</a> a Grafana datasource with this settings:</p>
 <ul>
 <li>name: Prometheus</li>
