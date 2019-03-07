@@ -137,7 +137,7 @@ output {
 
 The above will reconfigure logstash to use `gelf` (Graylog Extended Log Format) protocol supported by Docker log driver, so we can directly stream application logs to Logstash using `gelf`.
 
-4). Start the Elastic stack:
+1). Start the Elastic stack:
    
 ```
 cd /root/docker-elk
@@ -150,11 +150,11 @@ Creating docker-elk_elasticsearch_1 ... done
 Creating docker-elk_kibana_1        ... done
 Creating docker-elk_logstash_1      ... done
 ```
-5). Verify you can access Kibana on `http://localhost:5601`
+2). Verify you can access Kibana on `http://localhost:5601` and you can see application log messages coming from `btm-nodejs` container.
 
 ### Start node.js application container and forward logs to Elastic stack
 
-Make sure the Start application container with this command:
+Start the application container with this command:
 
 ```
 docker run --name btm-nodejs -d -p 3001:3001 --log-driver=gelf \
@@ -163,15 +163,15 @@ docker run --name btm-nodejs -d -p 3001:3001 --log-driver=gelf \
 
 Simulate a couple fo transactions using `Firefox` or `curl` by accessing `http://localhost:3001/checkout` URL and check if you can see application log records in Kibana.
 
-In the lab environment, the Elastic stack has been preconfigured, so the example Dashboard and Visualizations should be available in Kibana out of the box.
+In the lab environment, the Elastic stack has been preconfigured, so the example Dashboard and Visualizations should be available in Kibana out of the box. 
 
-You can also import Kibana configuration using provided `btm-nodejs-kibana.json`:
+Simulate a couple fo transactions using `Firefox` or `curl` by accessing `http://localhost:3001/checkout` and check out the Kibana dashboard: `Dashboards->BTM Node.js`
+
+In case of problems, you can also import Kibana configuration using provided `btm-nodejs-kibana.json`:
 
 - Go to Kibana: `http://localhost:5601`
 - Click on Management -> Saved Objects -> Import
 - Select `btm-nodejs-kibana.json`
-
-Simulate a couple fo transactions using `Firefox` or `curl` by accessing `http://localhost:3001/checkout` and check out the Kibana dashboard: `BTM Node.js`
 
 It should be similar to:
 ![](images/kibana.png)

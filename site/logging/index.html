@@ -580,7 +580,7 @@ output {
 
 
 <p>The above will reconfigure logstash to use <code>gelf</code> (Graylog Extended Log Format) protocol supported by Docker log driver, so we can directly stream application logs to Logstash using <code>gelf</code>.</p>
-<p>4). Start the Elastic stack:</p>
+<p>1). Start the Elastic stack:</p>
 <div class="codehilite"><pre><span></span>cd /root/docker-elk
 docker-compose up -d
 </pre></div>
@@ -594,23 +594,23 @@ Creating docker-elk_logstash_1      ... done
 </pre></div>
 
 
-<p>5). Verify you can access Kibana on <code>http://localhost:5601</code></p>
+<p>2). Verify you can access Kibana on <code>http://localhost:5601</code> and you can see application log messages coming from <code>btm-nodejs</code> container.</p>
 <h3 id="start-nodejs-application-container-and-forward-logs-to-elastic-stack">Start node.js application container and forward logs to Elastic stack<a class="headerlink" href="#start-nodejs-application-container-and-forward-logs-to-elastic-stack" title="Permanent link">&para;</a></h3>
-<p>Make sure the Start application container with this command:</p>
+<p>Start the application container with this command:</p>
 <div class="codehilite"><pre><span></span>docker run --name btm-nodejs -d -p 3001:3001 --log-driver=gelf \
 --log-opt gelf-address=udp://localhost:5000 b2m-nodejs
 </pre></div>
 
 
 <p>Simulate a couple fo transactions using <code>Firefox</code> or <code>curl</code> by accessing <code>http://localhost:3001/checkout</code> URL and check if you can see application log records in Kibana.</p>
-<p>In the lab environment, the Elastic stack has been preconfigured, so the example Dashboard and Visualizations should be available in Kibana out of the box.</p>
-<p>You can also import Kibana configuration using provided <code>btm-nodejs-kibana.json</code>:</p>
+<p>In the lab environment, the Elastic stack has been preconfigured, so the example Dashboard and Visualizations should be available in Kibana out of the box. </p>
+<p>Simulate a couple fo transactions using <code>Firefox</code> or <code>curl</code> by accessing <code>http://localhost:3001/checkout</code> and check out the Kibana dashboard: <code>Dashboards-&gt;BTM Node.js</code></p>
+<p>In case of problems, you can also import Kibana configuration using provided <code>btm-nodejs-kibana.json</code>:</p>
 <ul>
 <li>Go to Kibana: <code>http://localhost:5601</code></li>
 <li>Click on Management -&gt; Saved Objects -&gt; Import</li>
 <li>Select <code>btm-nodejs-kibana.json</code></li>
 </ul>
-<p>Simulate a couple fo transactions using <code>Firefox</code> or <code>curl</code> by accessing <code>http://localhost:3001/checkout</code> and check out the Kibana dashboard: <code>BTM Node.js</code></p>
 <p>It should be similar to:
 <img alt="" src="../images/kibana.png" /></p>
 <p>Stop and remove the node.js Docker container before starting the next exercise.</p>

@@ -2,23 +2,23 @@
 
 During this lab we will run the Prometheus and Grafana in  Docker Compose.
 Configuration for this lab is based on [https://github.com/vegasbrianc/prometheus](https://github.com/vegasbrianc/prometheus).
-Elastic stack docker compose project in located `/root/prometheus`
+Prometheus docker compose project is located `/root/prometheus`
 
-1. Add the scraping job definition to the Prometheus configuration file `/root/prometheus/prometheus/prometheus.yml` by adding (uncommenting in the lab VM) the following code within `scrape_config` section:
+1). Add the scraping job definition to the Prometheus configuration file `/root/prometheus/prometheus/prometheus.yml` by adding (uncommenting in the lab VM) the following code within `scrape_config` section:
 
 ```
   - job_name: 'btm-nodejs'
-    scrape_interval: 5s
+    scrape_interval: 20s
     static_configs:
     - targets: ['xxx.xxx.xxx.xxx:3001']
       labels:
-        service: 'my-service'
+        service: 'btm-nodejs'
         group: 'production'
 
 ```
 replace xxx.xxx.xxx.xxx with your own host machine's IP.
 
-3). Start Prometheus & Grafana stack:
+2). Start Prometheus & Grafana stack:
    
 ```
 cd /root/prometheus
@@ -145,6 +145,10 @@ States of active alerts:
 ![Prometheus - Alert Firing](images/prometheus-alert-firing.png)
 
 ## Set the Prometheus datasource in Grafana
+
+Logon to Grafana via `http://localhost:3000`
+- user: admin
+- password: foobar
 
 Verify the prometheus datasource configuration in Grafana. If it was not already configured, [create](http://docs.grafana.org/features/datasources/prometheus/#adding-the-data-source-to-grafana) a Grafana datasource with this settings:
 
