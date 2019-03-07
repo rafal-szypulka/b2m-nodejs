@@ -9,7 +9,7 @@ According to the [12-factor](https://12factor.net/) application guidelines, logs
 
 Go to the directory where the `server.js` file is located and run the following command to install and configure a [winston](http://github.com/winstonjs/winston) logging library for node.js.
 ```
-cd <clonned-b2m-nodjs-github-repo-directory>/src
+cd b2m-nodejs/src
 npm install --save winston
 ```
 this should add the following dependency to the `package.json`:
@@ -20,7 +20,7 @@ this should add the following dependency to the `package.json`:
 
 ## Example implementation of logging
 
-Add the following line at the beginning of `server.js` to load the `winston` module:
+Add/uncomment the following line at the beginning of `server.js` to load the `winston` module:
 
 ```js
 const { createLogger, format, transports } = require('winston')
@@ -54,14 +54,19 @@ logger.info(msg)
 
 You can add also additional metadata like `errorCode` or `transactionTime` that can be useful in log analytics.
 
-Extend your logger statement like on the example below. Additional metadata will be used later in our log analytics dashboard.
+Extend your logger statement like on the example below. Additional metadata will be used later in our log analytics dashboard. Look for commented lines starting with `logger` and uncomment it.
 
 ```js
+msg = 'RSAP0001I: Transaction OK'
+logger.info(msg, {"errCode": "RSAP0001I", "transactionTime": delay})
+
 msg = 'RSAP0010E: Severe problem detected'
 logger.error(msg, {"errorCode": "RSAP0010E", "transactionTime": delay})
 ```
 
-Example STDOUT:
+Restart the application (`ctrl-c` in the terminal window and start with `npm start server.js` after every code change). 
+
+Example STDOUT (in the application terminal window):
 
 ```json
 {"errCode":"RSAP0001I","transactionTime":81,"level":"info","message":"RSAP0001I: Transaction OK","timestamp":"2019-02-27T07:34:49.625Z"}
@@ -72,14 +77,23 @@ Example STDOUT:
 {"errCode":"RSAP0001I","transactionTime":62,"level":"info","message":"RSAP0001I: Transaction OK","timestamp":"2019-02-27T07:34:51.156Z"}
 ```
 
-Restart the application (`ctrl-c` in the terminal window and start with `npm start server.js` after every code change). After testing of the logging features, stop the application.
+
+>After testing of the logging features, stop the application.
+
+Commit your changes to your GiHub repository:
+
+```
+cd /root/b2m-nodejs
+git commit -am "I added logging to my app!"
+git push
+```
 
 ## Create a Docker image for node.js application
 
 Use provided `Dockerfile` to build application container:
 
 ```
-cd <clonned-b2m-nodjs-github-repo-directory>/src
+cd b2m-nodejs/src
 docker build -t b2m-nodejs .
 ```
 
@@ -88,15 +102,11 @@ The following procedure shows how to send the application logs to the local Elas
 
 ### Deploy a local Elastic stack with Docker Compose
 
-Steps 1-3 are already done for the lab VM and `docker-elk` repo is located in `/root/docker-elk`.
+During this lab we will run the Elastic Stack (Elasticsearch, Logstash, Kibana) in the Docker Compose.
+Configuration for this lab is based on https://github.com/deviantony/docker-elk.
+Elastic stack docker compose project in located `/root/docker-elk`
 
-1). Clone the `docker-elk` repository from Github:
-
-```
-git clone https://github.com/deviantony/docker-elk
-```
-
-2). Replace the Logstash configuration file `docker-elk/logstash/pipeline/logstash.conf` with the following code:
+Briefly review the simple logstash configuration we use for this lab: `/root/docker-elk/logstash/pipeline/logstash.conf`:
 
 ```
 input {
@@ -105,6 +115,7 @@ input {
 
 filter {
     json { source => "message" }
+    #we need level field in a numeric format
     mutate {
      gsub => [
       "level", "info", 6,
@@ -124,26 +135,12 @@ output {
 }
 ```
 
-The above will reconfigure logstash to use `gelf` (Graylog Extended Log Forma) protocol supported by Docker log driver, so we can directly stream application logs to Logstash using `gelf`.
+The above will reconfigure logstash to use `gelf` (Graylog Extended Log Format) protocol supported by Docker log driver, so we can directly stream application logs to Logstash using `gelf`.
 
-3). Edit `docker-elk\docker-compose.yml` and modify one line:
-
-from:
-
-```
-      - "5000:5000"
-```
-to
-```
-      - "5000:5000\udp"
-```
-
-The change above will tell `docker-compose` to expose `udp` port `5000` instead of default `tcp` (`gelf` protocol uses `udp`).
-
-4). Start Elastic stack:
+4). Start the Elastic stack:
    
 ```
-cd <cloned-docker-elk-repo-dir>
+cd /root/docker-elk
 docker-compose up -d
 ```
 Expected output:
@@ -174,8 +171,15 @@ You can also import Kibana configuration using provided `btm-nodejs-kibana.json`
 - Click on Management -> Saved Objects -> Import
 - Select `btm-nodejs-kibana.json`
 
-Simulate a couple fo transactions using `Firefox` or `curl` by accessing `http://localhost:3001/checkout` and check the Kibana dashboard: `BTM Node.js`
+Simulate a couple fo transactions using `Firefox` or `curl` by accessing `http://localhost:3001/checkout` and check out the Kibana dashboard: `BTM Node.js`
 
 It should be similar to:
 ![](images/kibana.png)
+
+Stop and remove the node.js Docker container before starting the next exercise.
+
+```
+docker stop btm-nodejs
+docker rm btm-nodejs
+```
 

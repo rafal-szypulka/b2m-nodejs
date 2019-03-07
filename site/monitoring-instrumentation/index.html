@@ -490,7 +490,7 @@
 
 
 <p>this should add the following dependency to the <code>package.json</code>:</p>
-<div class="codehilite"><pre><span></span>    &quot;prom-client&quot;: &quot;^9.1.1&quot;
+<div class="codehilite"><pre><span></span>    &quot;prom-client&quot;: &quot;^11.2.1&quot;
 </pre></div>
 
 
@@ -528,7 +528,13 @@ launched every 10 seconds, but this can be modified like this:</p>
 </pre></div>
 
 
-<p>Use browser to access <code>http://localhost:3001/metrics</code> to verify exposed metrics. Output should be similar to:</p>
+<p>Test the application locally:</p>
+<div class="codehilite"><pre><span></span>cd b2m-nodejs/src
+npm start server.js
+</pre></div>
+
+
+<p>Use browser or <code>curl</code> to access <code>http://localhost:3001/metrics</code> to verify exposed metrics. Output should be similar to:</p>
 <div class="codehilite"><pre><span></span># HELP process_cpu_user_seconds_total Total user CPU time spent in seconds.
 # TYPE process_cpu_user_seconds_total counter
 process_cpu_user_seconds_total 0.028084 1546452963611
@@ -716,6 +722,11 @@ http_request_duration_ms_count{method=&quot;GET&quot;,route=&quot;/checkout&quot
 <li><code>checkouts_total</code> by payment_method</li>
 <li><code>http_request_duration_ms_bucket</code> by percentile buckets and by route</li>
 </ul>
+<p>Commit your changes to your GiHub repository:</p>
+<div class="codehilite"><pre><span></span>cd /root/b2m-nodejs
+git commit -am &quot;I added monitoring instrumentation to my app!&quot;
+git push
+</pre></div>
                 
                   
                 

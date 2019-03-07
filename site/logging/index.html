@@ -467,7 +467,7 @@
 <p>According to the <a href="https://12factor.net/">12-factor</a> application guidelines, logs are the stream of aggregated, time-ordered events. A twelve-factor app never concerns itself with routing or storage of its output stream. It should not attempt to write to or manage log files. Instead, each running process writes its event stream, unbuffered, to stdout. If you deviate from these guidelines, make sure that you address the operational needs for log files, such as logging to local files and applying log rotation policies.</p>
 <h2 id="configure-the-logging-library">Configure the logging library<a class="headerlink" href="#configure-the-logging-library" title="Permanent link">&para;</a></h2>
 <p>Go to the directory where the <code>server.js</code> file is located and run the following command to install and configure a <a href="http://github.com/winstonjs/winston">winston</a> logging library for node.js.</p>
-<div class="codehilite"><pre><span></span>cd &lt;clonned-b2m-nodjs-github-repo-directory&gt;/src
+<div class="codehilite"><pre><span></span>cd b2m-nodejs/src
 npm install --save winston
 </pre></div>
 
@@ -478,7 +478,7 @@ npm install --save winston
 
 
 <h2 id="example-implementation-of-logging">Example implementation of logging<a class="headerlink" href="#example-implementation-of-logging" title="Permanent link">&para;</a></h2>
-<p>Add the following line at the beginning of <code>server.js</code> to load the <code>winston</code> module:</p>
+<p>Add/uncomment the following line at the beginning of <code>server.js</code> to load the <code>winston</code> module:</p>
 <div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="p">{</span> <span class="nx">createLogger</span><span class="p">,</span> <span class="nx">format</span><span class="p">,</span> <span class="nx">transports</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;winston&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -508,13 +508,17 @@ Timestamp should include the time zone information and be precise down to millis
 
 
 <p>You can add also additional metadata like <code>errorCode</code> or <code>transactionTime</code> that can be useful in log analytics.</p>
-<p>Extend your logger statement like on the example below. Additional metadata will be used later in our log analytics dashboard.</p>
-<div class="codehilite"><pre><span></span><span class="nx">msg</span> <span class="o">=</span> <span class="s1">&#39;RSAP0010E: Severe problem detected&#39;</span>
+<p>Extend your logger statement like on the example below. Additional metadata will be used later in our log analytics dashboard. Look for commented lines starting with <code>logger</code> and uncomment it.</p>
+<div class="codehilite"><pre><span></span><span class="nx">msg</span> <span class="o">=</span> <span class="s1">&#39;RSAP0001I: Transaction OK&#39;</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">msg</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;errCode&quot;</span><span class="o">:</span> <span class="s2">&quot;RSAP0001I&quot;</span><span class="p">,</span> <span class="s2">&quot;transactionTime&quot;</span><span class="o">:</span> <span class="nx">delay</span><span class="p">})</span>
+
+<span class="nx">msg</span> <span class="o">=</span> <span class="s1">&#39;RSAP0010E: Severe problem detected&#39;</span>
 <span class="nx">logger</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">msg</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;errorCode&quot;</span><span class="o">:</span> <span class="s2">&quot;RSAP0010E&quot;</span><span class="p">,</span> <span class="s2">&quot;transactionTime&quot;</span><span class="o">:</span> <span class="nx">delay</span><span class="p">})</span>
 </pre></div>
 
 
-<p>Example STDOUT:</p>
+<p>Restart the application (<code>ctrl-c</code> in the terminal window and start with <code>npm start server.js</code> after every code change). </p>
+<p>Example STDOUT (in the application terminal window):</p>
 <div class="codehilite"><pre><span></span><span class="p">{</span><span class="nt">&quot;errCode&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0001I&quot;</span><span class="p">,</span><span class="nt">&quot;transactionTime&quot;</span><span class="p">:</span><span class="mi">81</span><span class="p">,</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;info&quot;</span><span class="p">,</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0001I: Transaction OK&quot;</span><span class="p">,</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2019-02-27T07:34:49.625Z&quot;</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;errCode&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0010E&quot;</span><span class="p">,</span><span class="nt">&quot;transactionTime&quot;</span><span class="p">:</span><span class="mi">76</span><span class="p">,</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;error&quot;</span><span class="p">,</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0010E: Severe problem detected&quot;</span><span class="p">,</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2019-02-27T07:34:50.008Z&quot;</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;errCode&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0001I&quot;</span><span class="p">,</span><span class="nt">&quot;transactionTime&quot;</span><span class="p">:</span><span class="mi">22</span><span class="p">,</span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;info&quot;</span><span class="p">,</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;RSAP0001I: Transaction OK&quot;</span><span class="p">,</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2019-02-27T07:34:50.325Z&quot;</span><span class="p">}</span>
@@ -524,10 +528,19 @@ Timestamp should include the time zone information and be precise down to millis
 </pre></div>
 
 
-<p>Restart the application (<code>ctrl-c</code> in the terminal window and start with <code>npm start server.js</code> after every code change). After testing of the logging features, stop the application.</p>
+<blockquote>
+<p>After testing of the logging features, stop the application.</p>
+</blockquote>
+<p>Commit your changes to your GiHub repository:</p>
+<div class="codehilite"><pre><span></span>cd /root/b2m-nodejs
+git commit -am &quot;I added logging to my app!&quot;
+git push
+</pre></div>
+
+
 <h2 id="create-a-docker-image-for-nodejs-application">Create a Docker image for node.js application<a class="headerlink" href="#create-a-docker-image-for-nodejs-application" title="Permanent link">&para;</a></h2>
 <p>Use provided <code>Dockerfile</code> to build application container:</p>
-<div class="codehilite"><pre><span></span>cd &lt;clonned-b2m-nodjs-github-repo-directory&gt;/src
+<div class="codehilite"><pre><span></span>cd b2m-nodejs/src
 docker build -t b2m-nodejs .
 </pre></div>
 
@@ -535,19 +548,17 @@ docker build -t b2m-nodejs .
 <h2 id="integrate-with-the-elastic-stack">Integrate with the Elastic stack<a class="headerlink" href="#integrate-with-the-elastic-stack" title="Permanent link">&para;</a></h2>
 <p>The following procedure shows how to send the application logs to the local Elastic stack running in Docker.</p>
 <h3 id="deploy-a-local-elastic-stack-with-docker-compose">Deploy a local Elastic stack with Docker Compose<a class="headerlink" href="#deploy-a-local-elastic-stack-with-docker-compose" title="Permanent link">&para;</a></h3>
-<p>Steps 1-3 are already done for the lab VM and <code>docker-elk</code> repo is located in <code>/root/docker-elk</code>.</p>
-<p>1). Clone the <code>docker-elk</code> repository from Github:</p>
-<div class="codehilite"><pre><span></span>git clone https://github.com/deviantony/docker-elk
-</pre></div>
-
-
-<p>2). Replace the Logstash configuration file <code>docker-elk/logstash/pipeline/logstash.conf</code> with the following code:</p>
+<p>During this lab we will run the Elastic Stack (Elasticsearch, Logstash, Kibana) in the Docker Compose.
+Configuration for this lab is based on https://github.com/deviantony/docker-elk.
+Elastic stack docker compose project in located <code>/root/docker-elk</code></p>
+<p>Briefly review the simple logstash configuration we use for this lab: <code>/root/docker-elk/logstash/pipeline/logstash.conf</code>:</p>
 <div class="codehilite"><pre><span></span>input {
     gelf { port =&gt; 5000 }
 }
 
 filter {
     json { source =&gt; &quot;message&quot; }
+    #we need level field in a numeric format
     mutate {
      gsub =&gt; [
       &quot;level&quot;, &quot;info&quot;, 6,
@@ -568,21 +579,9 @@ output {
 </pre></div>
 
 
-<p>The above will reconfigure logstash to use <code>gelf</code> (Graylog Extended Log Forma) protocol supported by Docker log driver, so we can directly stream application logs to Logstash using <code>gelf</code>.</p>
-<p>3). Edit <code>docker-elk\docker-compose.yml</code> and modify one line:</p>
-<p>from:</p>
-<div class="codehilite"><pre><span></span>      - &quot;5000:5000&quot;
-</pre></div>
-
-
-<p>to</p>
-<div class="codehilite"><pre><span></span>      - &quot;5000:5000\udp&quot;
-</pre></div>
-
-
-<p>The change above will tell <code>docker-compose</code> to expose <code>udp</code> port <code>5000</code> instead of default <code>tcp</code> (<code>gelf</code> protocol uses <code>udp</code>).</p>
-<p>4). Start Elastic stack:</p>
-<div class="codehilite"><pre><span></span>cd &lt;cloned-docker-elk-repo-dir&gt;
+<p>The above will reconfigure logstash to use <code>gelf</code> (Graylog Extended Log Format) protocol supported by Docker log driver, so we can directly stream application logs to Logstash using <code>gelf</code>.</p>
+<p>4). Start the Elastic stack:</p>
+<div class="codehilite"><pre><span></span>cd /root/docker-elk
 docker-compose up -d
 </pre></div>
 
@@ -611,9 +610,13 @@ Creating docker-elk_logstash_1      ... done
 <li>Click on Management -&gt; Saved Objects -&gt; Import</li>
 <li>Select <code>btm-nodejs-kibana.json</code></li>
 </ul>
-<p>Simulate a couple fo transactions using <code>Firefox</code> or <code>curl</code> by accessing <code>http://localhost:3001/checkout</code> and check the Kibana dashboard: <code>BTM Node.js</code></p>
+<p>Simulate a couple fo transactions using <code>Firefox</code> or <code>curl</code> by accessing <code>http://localhost:3001/checkout</code> and check out the Kibana dashboard: <code>BTM Node.js</code></p>
 <p>It should be similar to:
 <img alt="" src="../images/kibana.png" /></p>
+<p>Stop and remove the node.js Docker container before starting the next exercise.</p>
+<div class="codehilite"><pre><span></span>docker stop btm-nodejs
+docker rm btm-nodejs
+</pre></div>
                 
                   
                 

@@ -62,7 +62,14 @@ and
    res.end(Prometheus.register.metrics())
  })
 ```
-Use browser to access `http://localhost:3001/metrics` to verify exposed metrics. Output should be similar to:
+Test the application locally:
+
+```
+cd b2m-nodejs/src
+npm start server.js
+```
+
+Use browser or `curl` to access `http://localhost:3001/metrics` to verify exposed metrics. Output should be similar to:
 
 ```
 # HELP process_cpu_user_seconds_total Total user CPU time spent in seconds.
@@ -260,3 +267,11 @@ Besides the default set of metrics related to resource utilization by the applic
 
 - `checkouts_total` by payment_method
 - `http_request_duration_ms_bucket` by percentile buckets and by route
+
+Commit your changes to your GiHub repository:
+
+```
+cd /root/b2m-nodejs
+git commit -am "I added monitoring instrumentation to my app!"
+git push
+```

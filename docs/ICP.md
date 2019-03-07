@@ -8,10 +8,10 @@ Use provided `Dockerfile` to build application container:
 docker build -t b2m-nodejs .
 ```
 
-Test container locally (make sure you stopped local Node.js server).
+Test container locally (make sure you stopped the local Node.js server).
 
 ```
-docker run -d -p 3001:3001 b2m-nodejs
+docker run --name btm-nodejs -d -p 3001:3001 b2m-nodejs
 ```
 Access `http://localhost:3001` to verify the application is running.
 
@@ -22,7 +22,7 @@ The `b2m-nodejs` application container image has been uploaded to public Docker 
 
 ### Deploy b2m-nodejs application to the ICP cluster
 
-Review provided YAML file `b2m-nodejs-icp.yml` and use it to deploy the applcation to IBM Cloud Private cluster. `b2m-nodejs` deployment object will pull application image container `rszypulka/b2m-nodejs` from Docker Hub.
+Review provided YAML file `b2m-nodejs-icp.yml` and use it to deploy the application to IBM Cloud Private cluster. `b2m-nodejs` deployment object will pull application image container `rszypulka/b2m-nodejs` from Docker Hub.
 
 ```
 kubectl apply -f b2m-nodejs-icp.yml
@@ -81,7 +81,7 @@ Use the `<application_url>` collected in previous chapter.
 Access the ICP Grafana console and verify it properly shows metrics.
 
 
-## Define kubernets liveness probe for use with built-in application health check
+## Define kubernetes liveness probe for use with built-in application health check
 
 The provided `b2m-nodejs-icp.yml` deployment YAML file define [liveness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-http-request) that use the implemented `/healthz` route.
 

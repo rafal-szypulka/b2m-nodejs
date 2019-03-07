@@ -1,14 +1,10 @@
 ### Deploy a local Prometheus and Grafana stack with Docker Compose
 
-Steps 1-2 are already done for the lab VM and `prometheus` repo is located in `/root/prometheus`.
+During this lab we will run the Prometheus and Grafana in  Docker Compose.
+Configuration for this lab is based on [https://github.com/vegasbrianc/prometheus](https://github.com/vegasbrianc/prometheus).
+Elastic stack docker compose project in located `/root/prometheus`
 
-1). Clone the `prometheus` docker compose repository from Github:
-
-```
-git clone https://github.com/vegasbrianc/prometheus
-```
-
-2). Add scraping job definition to the Prometheus configuration file `prometheus/prometheus/prometheus.yml` by adding (uncommenting in the lab VM) the following code within `scrape_config` section:
+1. Add the scraping job definition to the Prometheus configuration file `/root/prometheus/prometheus/prometheus.yml` by adding (uncommenting in the lab VM) the following code within `scrape_config` section:
 
 ```
   - job_name: 'btm-nodejs'
@@ -25,7 +21,7 @@ replace xxx.xxx.xxx.xxx with your own host machine's IP.
 3). Start Prometheus & Grafana stack:
    
 ```
-cd <cloned-prometheus-docker-compose-repo-dir>
+cd /root/prometheus
 docker-compose up -d
 ```
 Expected output:
@@ -45,6 +41,10 @@ Verify that Prometheus started via: [http://localhost:9090](http://localhost:909
 
 ## Run example PromQL queries
 
+Generate some application load before running the queries:
+
+/root/b2m-nodejs/
+
 ### Throughput
 
 #### Error rate
@@ -54,6 +54,8 @@ Range[0,1]: number of 5xx requests / total number of requests
 ```
 sum(increase(http_request_duration_ms_count{code=~"^5..$"}[1m])) /  sum(increase(http_request_duration_ms_count[1m]))
 ```
+
+Expected value `~0.2` because our application should return 500 for about 20% of transactions.
 
 #### Request Per Minute
 
@@ -100,11 +102,11 @@ avg(rate(http_request_duration_ms_sum[1m]) / rate(http_request_duration_ms_count
 In Megabyte.
 
 ```
-avg(nodejs_external_memory_bytes / 1024 / 1024) by (service)
+avg(nodejs_external_memory_bytes / 1024 ) by (service)
 ```
 
 ## Configure Prometheus alert
-Alerting rules allows to define alert conditions based on Prometheus expression language expressions and to send notifications about firing alerts to an external service. In this lab we will configure one alerting rule for median response time higer than 100ms.
+Alerting rules allows to define alert conditions based on Prometheus expression language expressions and to send notifications about firing alerts to an external service. In this lab we will configure one alerting rule for median response time higher than 100ms.
 
 **Lab instruction:**
 
@@ -121,8 +123,6 @@ Add the following alert rule to the `alert.rules` file. In the lab VM it is loca
       summary: High median response time on {{ $labels.service }} and {{ $labels.method
         }} {{ $labels.route }}
 ```
-
-
 
 ## Reload config
 
@@ -148,7 +148,7 @@ States of active alerts:
 
 Verify the prometheus datasource configuration in Grafana. If it was not already configured, [create](http://docs.grafana.org/features/datasources/prometheus/#adding-the-data-source-to-grafana) a Grafana datasource with this settings:
 
-+ name: prometheus
++ name: Prometheus
 + type: prometheus
 + url: http://localhost:9090
 + access: browser
@@ -157,7 +157,6 @@ Verify the prometheus datasource configuration in Grafana. If it was not already
 ## Configure dashboard
 
 Grafana Dashboard to [import](http://docs.grafana.org/reference/export_import/#importing-a-dashboard): `btm-nodejs-grafana.json`
-Or use this curl request:
 
 Monitoring dashboard was created according to RED Method principles:
 
@@ -176,3 +175,5 @@ Define Apdex score chart using the following query:
 (sum(rate(http_request_duration_ms_bucket{le="100"}[1m])) by (service) + sum(rate(http_request_duration_ms_bucket{le="300"}[1m])) by (service)
 ) / 2 / sum(rate(http_request_duration_ms_count[1m])) by (service)
 ```
+
+Every time you need application traffic, use provided script `b2m-nodejs/src/load_test.sh`

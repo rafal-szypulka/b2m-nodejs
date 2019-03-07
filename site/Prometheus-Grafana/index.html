@@ -639,13 +639,12 @@
                   <h1>4. Prometheus and Grafana configuration</h1>
                 
                 <h3 id="deploy-a-local-prometheus-and-grafana-stack-with-docker-compose">Deploy a local Prometheus and Grafana stack with Docker Compose<a class="headerlink" href="#deploy-a-local-prometheus-and-grafana-stack-with-docker-compose" title="Permanent link">&para;</a></h3>
-<p>Steps 1-2 are already done for the lab VM and <code>prometheus</code> repo is located in <code>/root/prometheus</code>.</p>
-<p>1). Clone the <code>prometheus</code> docker compose repository from Github:</p>
-<div class="codehilite"><pre><span></span>git clone https://github.com/vegasbrianc/prometheus
-</pre></div>
-
-
-<p>2). Add scraping job definition to the Prometheus configuration file <code>prometheus/prometheus/prometheus.yml</code> by adding (uncommenting in the lab VM) the following code within <code>scrape_config</code> section:</p>
+<p>During this lab we will run the Prometheus and Grafana in  Docker Compose.
+Configuration for this lab is based on <a href="https://github.com/vegasbrianc/prometheus">https://github.com/vegasbrianc/prometheus</a>.
+Elastic stack docker compose project in located <code>/root/prometheus</code></p>
+<ol>
+<li>Add the scraping job definition to the Prometheus configuration file <code>/root/prometheus/prometheus/prometheus.yml</code> by adding (uncommenting in the lab VM) the following code within <code>scrape_config</code> section:</li>
+</ol>
 <div class="codehilite"><pre><span></span>  - job_name: &#39;btm-nodejs&#39;
     scrape_interval: 5s
     static_configs:
@@ -658,7 +657,7 @@
 
 <p>replace xxx.xxx.xxx.xxx with your own host machine's IP.</p>
 <p>3). Start Prometheus &amp; Grafana stack:</p>
-<div class="codehilite"><pre><span></span>cd &lt;cloned-prometheus-docker-compose-repo-dir&gt;
+<div class="codehilite"><pre><span></span>cd /root/prometheus
 docker-compose up -d
 </pre></div>
 
@@ -676,6 +675,8 @@ Creating prometheus_grafana_1       ... done
 
 <p>Verify that Prometheus started via: <a href="http://localhost:9090/graph">http://localhost:9090</a></p>
 <h2 id="run-example-promql-queries">Run example PromQL queries<a class="headerlink" href="#run-example-promql-queries" title="Permanent link">&para;</a></h2>
+<p>Generate some application load before running the queries:</p>
+<p>/root/b2m-nodejs/</p>
 <h3 id="throughput">Throughput<a class="headerlink" href="#throughput" title="Permanent link">&para;</a></h3>
 <h4 id="error-rate">Error rate<a class="headerlink" href="#error-rate" title="Permanent link">&para;</a></h4>
 <p>Range[0,1]: number of 5xx requests / total number of requests</p>
@@ -683,6 +684,7 @@ Creating prometheus_grafana_1       ... done
 </pre></div>
 
 
+<p>Expected value <code>~0.2</code> because our application should return 500 for about 20% of transactions.</p>
 <h4 id="request-per-minute">Request Per Minute<a class="headerlink" href="#request-per-minute" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span>sum(rate(http_request_duration_ms_count[1m])) by (service, route, method, code)  * 60
 </pre></div>
@@ -718,12 +720,12 @@ Creating prometheus_grafana_1       ... done
 <h3 id="memory-usage">Memory Usage<a class="headerlink" href="#memory-usage" title="Permanent link">&para;</a></h3>
 <h4 id="average-memory-usage">Average Memory Usage<a class="headerlink" href="#average-memory-usage" title="Permanent link">&para;</a></h4>
 <p>In Megabyte.</p>
-<div class="codehilite"><pre><span></span>avg(nodejs_external_memory_bytes / 1024 / 1024) by (service)
+<div class="codehilite"><pre><span></span>avg(nodejs_external_memory_bytes / 1024 ) by (service)
 </pre></div>
 
 
 <h2 id="configure-prometheus-alert">Configure Prometheus alert<a class="headerlink" href="#configure-prometheus-alert" title="Permanent link">&para;</a></h2>
-<p>Alerting rules allows to define alert conditions based on Prometheus expression language expressions and to send notifications about firing alerts to an external service. In this lab we will configure one alerting rule for median response time higer than 100ms.</p>
+<p>Alerting rules allows to define alert conditions based on Prometheus expression language expressions and to send notifications about firing alerts to an external service. In this lab we will configure one alerting rule for median response time higher than 100ms.</p>
 <p><strong>Lab instruction:</strong></p>
 <p>Add the following alert rule to the <code>alert.rules</code> file. In the lab VM it is located in <code>/root/prometheus/prometheus/alert.rules</code></p>
 <div class="codehilite"><pre><span></span>  - alert: APIHighMedianResponseTime
@@ -757,14 +759,13 @@ Creating prometheus_grafana_1       ... done
 <h2 id="set-the-prometheus-datasource-in-grafana">Set the Prometheus datasource in Grafana<a class="headerlink" href="#set-the-prometheus-datasource-in-grafana" title="Permanent link">&para;</a></h2>
 <p>Verify the prometheus datasource configuration in Grafana. If it was not already configured, <a href="http://docs.grafana.org/features/datasources/prometheus/#adding-the-data-source-to-grafana">create</a> a Grafana datasource with this settings:</p>
 <ul>
-<li>name: prometheus</li>
+<li>name: Prometheus</li>
 <li>type: prometheus</li>
 <li>url: http://localhost:9090</li>
 <li>access: browser</li>
 </ul>
 <h2 id="configure-dashboard">Configure dashboard<a class="headerlink" href="#configure-dashboard" title="Permanent link">&para;</a></h2>
-<p>Grafana Dashboard to <a href="http://docs.grafana.org/reference/export_import/#importing-a-dashboard">import</a>: <code>btm-nodejs-grafana.json</code>
-Or use this curl request:</p>
+<p>Grafana Dashboard to <a href="http://docs.grafana.org/reference/export_import/#importing-a-dashboard">import</a>: <code>btm-nodejs-grafana.json</code></p>
 <p>Monitoring dashboard was created according to RED Method principles:</p>
 <ul>
 <li>Rate (<code>Thoughput</code> and <code>Checkouts</code> panels)</li>
@@ -778,6 +779,9 @@ Define Apdex score chart using the following query:</p>
 <div class="codehilite"><pre><span></span>(sum(rate(http_request_duration_ms_bucket{le=&quot;100&quot;}[1m])) by (service) + sum(rate(http_request_duration_ms_bucket{le=&quot;300&quot;}[1m])) by (service)
 ) / 2 / sum(rate(http_request_duration_ms_count[1m])) by (service)
 </pre></div>
+
+
+<p>Every time you need application traffic, use provided script <code>b2m-nodejs/src/load_test.sh</code></p>
                 
                   
                 

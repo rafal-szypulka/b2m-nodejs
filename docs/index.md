@@ -47,7 +47,9 @@ From now on you will work on your own fork of the application project
 https://github.com/<username>/btm-nodejs
 ```
 
-Clone `b2m-nodejs` lab repository using:
+where <username> is your GitHub username.
+
+Clone the `b2m-nodejs` lab repository using:
 
 ```
 git clone https://github.ibm.com/<username>/b2m-nodejs
@@ -64,7 +66,7 @@ Review the application code in `server.js`. Application simulates a transaction 
 http://localhost:3001/checkout
 ```
 
-About 5% of requests should return error and 500 HTTP response code.
+About 20% of requests should return error and 500 HTTP response code.
 
 
 Run the Node Package Manager to install all required node modules: 
@@ -73,7 +75,7 @@ Run the Node Package Manager to install all required node modules:
 npm install 
 ```
 and then
- 
+
 ``` 
 npm start server.js
 ``` 
@@ -92,3 +94,5 @@ or:
 ```
 {"error":"RSAP0010E: Severe problem detected"}
 ```
+
+Refresh the page a couple of times and you should see random transaction response times.
