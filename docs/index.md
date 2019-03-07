@@ -34,17 +34,30 @@ Install the following software on your workstation or use the provided VM.
 
 ## Review the application code and run it locally
 
+Logon to GitHub using your user and password.
+Access the following repository and click `Fork`.
+
+```
+https://github.com/rafal-szypulka/btm-nodejs
+```
+
+From now on you will work on your own fork of the application project
+
+```
+https://github.com/<username>/btm-nodejs
+```
+
 Clone `b2m-nodejs` lab repository using:
 
 ```
-git clone https://github.ibm.com/rafal-szypulka/b2m-nodejs
+git clone https://github.ibm.com/<username>/b2m-nodejs
 ```
-Most of the commands in this lab should be executed from the `b2m-nodejs/src` directory
+
+Most of the commands in this lab should be executed from the `b2m-nodejs/src` directory:
 
 ```
 cd b2m-nodejs/src
 ```
-
 Review the application code in `server.js`. Application simulates a transaction with random response time on the following URL:
 
 ```

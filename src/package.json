@@ -1,13 +1,12 @@
 {
-  "name": "example-prometheus",
+  "name": "b2m-nodeks",
   "version": "1.0.0",
-  "description": "Prometheus example",
+  "description": "Build To Manage - Node.js example",
   "scripts": {
     "start": "node"
   },
   "dependencies": {
-    "express": "4.15.3",
-    "prom-client": "9.1.1"
+    "express": "4.16.4"
   },
   "devDependencies": {
     "eslint": "3.19.0",
