@@ -20,7 +20,7 @@ npm install --save prom-client
 this should add the following dependency to the `package.json`:
 
 ```
-    "prom-client": "^9.1.1"
+    "prom-client": "^11.2.1"
 ```
 
 ### Enable default metrics

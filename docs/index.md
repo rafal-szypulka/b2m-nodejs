@@ -67,12 +67,13 @@ http://localhost:3001/checkout
 About 5% of requests should return error and 500 HTTP response code.
 
 
-Run:
+Run the Node Package Manager to install all required node modules: 
 
 ```
 npm install 
 ```
- and then 
+and then
+ 
 ``` 
 npm start server.js
 ``` 
