@@ -38,13 +38,13 @@ Logon to GitHub using your user and password.
 Access the following repository and click `Fork`.
 
 ```
-https://github.com/rafal-szypulka/btm-nodejs
+https://github.com/rafal-szypulka/b2m-nodejs
 ```
 
 From now on you will work on your own fork of the application project
 
 ```
-https://github.com/<username>/btm-nodejs
+https://github.com/<username>/b2m-nodejs
 ```
 
 where <username> is your GitHub username.

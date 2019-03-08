@@ -152,7 +152,7 @@ Creating docker-elk_logstash_1      ... done
 ```
 2). Verify you can access Kibana on `http://localhost:5601` and you can see application log messages coming from `btm-nodejs` container.
 
-### Start node.js application container and forward logs to Elastic stack
+### Start the node.js application container and forward logs to Elastic stack
 
 Start the application container with this command:
 
