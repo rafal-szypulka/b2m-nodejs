@@ -80,7 +80,7 @@ Example STDOUT (in the application terminal window):
 
 >After testing of the logging features, stop the application.
 
-Commit your changes to your GiHub repository:
+Commit your changes to your GitHub repository:
 
 ```
 cd /root/b2m-nodejs
@@ -150,7 +150,7 @@ Creating docker-elk_elasticsearch_1 ... done
 Creating docker-elk_kibana_1        ... done
 Creating docker-elk_logstash_1      ... done
 ```
-2). Verify you can access Kibana on `http://localhost:5601` and you can see application log messages coming from `btm-nodejs` container.
+2). Verify you can access Kibana on `http://localhost:5601`.
 
 ### Start the node.js application container and forward logs to Elastic stack
 
