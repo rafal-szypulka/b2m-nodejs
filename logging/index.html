@@ -307,8 +307,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#start-nodejs-application-container-and-forward-logs-to-elastic-stack" title="Start node.js application container and forward logs to Elastic stack" class="md-nav__link">
-    Start node.js application container and forward logs to Elastic stack
+  <a href="#start-the-nodejs-application-container-and-forward-logs-to-elastic-stack" title="Start the node.js application container and forward logs to Elastic stack" class="md-nav__link">
+    Start the node.js application container and forward logs to Elastic stack
   </a>
   
 </li>
@@ -432,8 +432,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#start-nodejs-application-container-and-forward-logs-to-elastic-stack" title="Start node.js application container and forward logs to Elastic stack" class="md-nav__link">
-    Start node.js application container and forward logs to Elastic stack
+  <a href="#start-the-nodejs-application-container-and-forward-logs-to-elastic-stack" title="Start the node.js application container and forward logs to Elastic stack" class="md-nav__link">
+    Start the node.js application container and forward logs to Elastic stack
   </a>
   
 </li>
@@ -595,7 +595,7 @@ Creating docker-elk_logstash_1      ... done
 
 
 <p>2). Verify you can access Kibana on <code>http://localhost:5601</code> and you can see application log messages coming from <code>btm-nodejs</code> container.</p>
-<h3 id="start-nodejs-application-container-and-forward-logs-to-elastic-stack">Start node.js application container and forward logs to Elastic stack<a class="headerlink" href="#start-nodejs-application-container-and-forward-logs-to-elastic-stack" title="Permanent link">&para;</a></h3>
+<h3 id="start-the-nodejs-application-container-and-forward-logs-to-elastic-stack">Start the node.js application container and forward logs to Elastic stack<a class="headerlink" href="#start-the-nodejs-application-container-and-forward-logs-to-elastic-stack" title="Permanent link">&para;</a></h3>
 <p>Start the application container with this command:</p>
 <div class="codehilite"><pre><span></span>docker run --name btm-nodejs -d -p 3001:3001 --log-driver=gelf \
 --log-opt gelf-address=udp://localhost:5000 b2m-nodejs
