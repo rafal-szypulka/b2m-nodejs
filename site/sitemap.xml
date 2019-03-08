@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-     <loc>https://github.com/rafal-szypulka/b2m-nodejs/docs/</loc>
+     <loc>https://rafal-szypulka.github.io/b2m-nodejs/</loc>
      <lastmod>2019-03-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://github.com/rafal-szypulka/b2m-nodejs/docs/logging/</loc>
+     <loc>https://rafal-szypulka.github.io/b2m-nodejs/logging/</loc>
      <lastmod>2019-03-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://github.com/rafal-szypulka/b2m-nodejs/docs/monitoring-instrumentation/</loc>
+     <loc>https://rafal-szypulka.github.io/b2m-nodejs/monitoring-instrumentation/</loc>
      <lastmod>2019-03-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://github.com/rafal-szypulka/b2m-nodejs/docs/Prometheus-Grafana/</loc>
+     <loc>https://rafal-szypulka.github.io/b2m-nodejs/Prometheus-Grafana/</loc>
      <lastmod>2019-03-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://github.com/rafal-szypulka/b2m-nodejs/docs/ICP/</loc>
+     <loc>https://rafal-szypulka.github.io/b2m-nodejs/ICP/</loc>
      <lastmod>2019-03-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://github.com/rafal-szypulka/b2m-nodejs/docs/about/</loc>
+     <loc>https://rafal-szypulka.github.io/b2m-nodejs/about/</loc>
      <lastmod>2019-03-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
