@@ -52,7 +52,7 @@ where <username> is your GitHub username.
 Clone the `b2m-nodejs` lab repository using:
 
 ```
-git clone https://github.ibm.com/<username>/b2m-nodejs
+git clone https://github.com/<username>/b2m-nodejs
 ```
 
 Most of the commands in this lab should be executed from the `b2m-nodejs/src` directory:
