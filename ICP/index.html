@@ -341,8 +341,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#define-kubernetes-liveness-probe-for-use-with-built-in-application-health-check" title="Define kubernetes liveness probe for use with built-in application health check" class="md-nav__link">
-    Define kubernetes liveness probe for use with built-in application health check
+  <a href="#define-the-kubernetes-liveness-probe-for-use-with-built-in-application-health-check" title="Define the kubernetes liveness probe for use with built-in application health check" class="md-nav__link">
+    Define the kubernetes liveness probe for use with built-in application health check
   </a>
   
 </li>
@@ -423,8 +423,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#define-kubernetes-liveness-probe-for-use-with-built-in-application-health-check" title="Define kubernetes liveness probe for use with built-in application health check" class="md-nav__link">
-    Define kubernetes liveness probe for use with built-in application health check
+  <a href="#define-the-kubernetes-liveness-probe-for-use-with-built-in-application-health-check" title="Define the kubernetes liveness probe for use with built-in application health check" class="md-nav__link">
+    Define the kubernetes liveness probe for use with built-in application health check
   </a>
   
 </li>
@@ -457,7 +457,7 @@
 </pre></div>
 
 
-<p>Test container locally (make sure you stopped the local Node.js server).</p>
+<p>Test container locally (make sure you stopped the local Node.js server and removed previous version of this docker container).</p>
 <div class="codehilite"><pre><span></span>docker run --name btm-nodejs -d -p 3001:3001 b2m-nodejs
 </pre></div>
 
@@ -512,8 +512,8 @@ b2m-nodejs   1         1         1            1           4h
 
 <p>Use the <code>&lt;application_url&gt;</code> collected in previous chapter.</p>
 <p>Access the ICP Grafana console and verify it properly shows metrics.</p>
-<h2 id="define-kubernetes-liveness-probe-for-use-with-built-in-application-health-check">Define kubernetes liveness probe for use with built-in application health check<a class="headerlink" href="#define-kubernetes-liveness-probe-for-use-with-built-in-application-health-check" title="Permanent link">&para;</a></h2>
-<p>The provided <code>b2m-nodejs-icp.yml</code> deployment YAML file define <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-http-request">liveness probe</a> that use the implemented <code>/healthz</code> route.</p>
+<h2 id="define-the-kubernetes-liveness-probe-for-use-with-built-in-application-health-check">Define the kubernetes liveness probe for use with built-in application health check<a class="headerlink" href="#define-the-kubernetes-liveness-probe-for-use-with-built-in-application-health-check" title="Permanent link">&para;</a></h2>
+<p>The provided <code>b2m-nodejs-icp.yml</code> deployment YAML file define <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#define-a-liveness-http-request">liveness probe</a> that uses the implemented <code>/healthz</code> route.</p>
 <div class="codehilite"><pre><span></span>   livenessProbe:
      httpGet:
        path: /healthz

@@ -469,7 +469,7 @@
 <p>According to the <a href="https://12factor.net/">12-factor</a> application guidelines, logs are the stream of aggregated, time-ordered events. A twelve-factor app never concerns itself with routing or storage of its output stream. It should not attempt to write to or manage log files. Instead, each running process writes its event stream, unbuffered, to stdout. If you deviate from these guidelines, make sure that you address the operational needs for log files, such as logging to local files and applying log rotation policies.</p>
 <h2 id="configure-the-logging-library">Configure the logging library<a class="headerlink" href="#configure-the-logging-library" title="Permanent link">&para;</a></h2>
 <p>Go to the directory where the <code>server.js</code> file is located and run the following command to install and configure a <a href="http://github.com/winstonjs/winston">winston</a> logging library for node.js.</p>
-<div class="codehilite"><pre><span></span>cd b2m-nodejs/src
+<div class="codehilite"><pre><span></span>cd ~/b2m-nodejs/src
 npm install --save winston
 </pre></div>
 
@@ -533,16 +533,18 @@ Timestamp should include the time zone information and be precise down to millis
 <blockquote>
 <p>After testing of the logging features, stop the application.</p>
 </blockquote>
-<p>Commit your changes to your GitHub repository:</p>
-<div class="codehilite"><pre><span></span>cd /root/b2m-nodejs
+<p>Configure your Github user and commit your changes to your GitHub repository:</p>
+<div class="codehilite"><pre><span></span>cd ~/b2m-nodejs
+git config --global user.email &quot;&lt;your_github_email&gt;&quot;
 git commit -am &quot;I added logging to my app!&quot;
 git push
 </pre></div>
 
 
+<p>Access your Github via web browser and verify that you see recent updates and history of changes.</p>
 <h2 id="create-a-docker-image-for-nodejs-application">Create a Docker image for node.js application<a class="headerlink" href="#create-a-docker-image-for-nodejs-application" title="Permanent link">&para;</a></h2>
-<p>Use provided <code>Dockerfile</code> to build application container:</p>
-<div class="codehilite"><pre><span></span>cd b2m-nodejs/src
+<p>Use provided <code>Dockerfile</code> to build the application container:</p>
+<div class="codehilite"><pre><span></span>cd ~/b2m-nodejs/src
 docker build -t b2m-nodejs .
 </pre></div>
 

@@ -487,7 +487,8 @@
 <p>Rate, Errors and Duration attempt to cover the most obvious web service issues. These metrics also capture an error rate that is expressed as a proportion of request rate.</p>
 <h2 id="instrument-application-code-with-nodejs-client-library-for-prometheus">Instrument application code with Node.js client library for Prometheus<a class="headerlink" href="#instrument-application-code-with-nodejs-client-library-for-prometheus" title="Permanent link">&para;</a></h2>
 <p>Go to the directory where the <code>server.js</code> file is located and run the following command to install and configure a <a href="https://github.com/siimon/prom-client">prom-client</a> - a Node.js client library for Prometheus.</p>
-<div class="codehilite"><pre><span></span>npm install --save prom-client
+<div class="codehilite"><pre><span></span>cd ~/b2m-nodejs/src
+npm install --save prom-client
 </pre></div>
 
 
@@ -531,11 +532,12 @@ launched every 10 seconds, but this can be modified like this:</p>
 
 
 <p>Test the application locally:</p>
-<div class="codehilite"><pre><span></span>cd b2m-nodejs/src
+<div class="codehilite"><pre><span></span>cd ~/b2m-nodejs/src
 npm start server.js
 </pre></div>
 
 
+<p>Run a couple of transactions by refreshing the URL: <code>http://localhost:3001/checkout</code></p>
 <p>Use browser or <code>curl</code> to access <code>http://localhost:3001/metrics</code> to verify exposed metrics. Output should be similar to:</p>
 <div class="codehilite"><pre><span></span># HELP process_cpu_user_seconds_total Total user CPU time spent in seconds.
 # TYPE process_cpu_user_seconds_total counter
@@ -614,6 +616,7 @@ nodejs_version_info{version=&quot;v10.7.0&quot;,major=&quot;10&quot;,minor=&quot
 </pre></div>
 
 
+<p>Stop node.js app <code>ctrl-c</code>.</p>
 <h3 id="define-custom-metric">Define custom metric<a class="headerlink" href="#define-custom-metric" title="Permanent link">&para;</a></h3>
 <p>Node.js Prometheus client library allows to define various types of Prometheus metrics like histograms, summaries, gauges and counters. More detailed description of metric types can be found in Prometheus <a href="https://prometheus.io/docs/concepts/metric_types/">documentation</a>.</p>
 <p>In this lab we will define two custom metrics:</p>
@@ -622,7 +625,7 @@ nodejs_version_info{version=&quot;v10.7.0&quot;,major=&quot;10&quot;,minor=&quot
 <li>histogram <code>http_request_duration_ms</code> which will store percentiles of application requests response time</li>
 </ul>
 <p><strong>Lab Instructions:</strong></p>
-<p>Uncomment the rest of commented lines in <code>server.js</code></p>
+<p>Uncomment the rest of commented lines in <code>server.js</code>. </p>
 <h4 id="checkouts_total">checkouts_total<a class="headerlink" href="#checkouts_total" title="Permanent link">&para;</a></h4>
 <p>Declaration of <code>checkouts_total</code> counter.</p>
 <div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">checkoutsTotal</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Prometheus</span><span class="p">.</span><span class="nx">Counter</span><span class="p">({</span>
@@ -671,6 +674,13 @@ nodejs_version_info{version=&quot;v10.7.0&quot;,major=&quot;10&quot;,minor=&quot
 </pre></div>
 
 
+<p>After you complete code changes, start the local application instance:</p>
+<div class="codehilite"><pre><span></span>cd ~/b2m-nodejs/src
+npm start server.js
+</pre></div>
+
+
+<p>Run a couple of transactions by refreshing the URL: <code>http://localhost:3001/checkout</code></p>
 <p>Use browser to access <code>http://localhost:3001/metrics</code> to verify exposed metrics. Output should be similar to:</p>
 <div class="codehilite"><pre><span></span>(...)
 # HELP checkouts_total Total number of checkouts
@@ -724,11 +734,32 @@ http_request_duration_ms_count{method=&quot;GET&quot;,route=&quot;/checkout&quot
 <li><code>checkouts_total</code> by payment_method</li>
 <li><code>http_request_duration_ms_bucket</code> by percentile buckets and by route</li>
 </ul>
+<p>Stop the node.js application with <code>ctrl-c</code>.</p>
 <p>Commit your changes to your GiHub repository:</p>
-<div class="codehilite"><pre><span></span>cd /root/b2m-nodejs
+<div class="codehilite"><pre><span></span>cd ~/b2m-nodejs
 git commit -am &quot;I added monitoring instrumentation to my app!&quot;
 git push
 </pre></div>
+
+
+<p>Use provided <code>Dockerfile</code> to rebuild the application container:</p>
+<div class="codehilite"><pre><span></span>cd ~/b2m-nodejs/src
+docker build -t b2m-nodejs .
+</pre></div>
+
+
+<p>Make sure the application is not running and you removed the previous application docker container:</p>
+<div class="codehilite"><pre><span></span>docker ps|grep btm-nodejs
+</pre></div>
+
+
+<p>Start the updated docker container:</p>
+<div class="codehilite"><pre><span></span>docker run --name btm-nodejs -d -p 3001:3001 --log-driver=gelf \
+--log-opt gelf-address=udp://localhost:5000 b2m-nodejs
+</pre></div>
+
+
+<p>Verify URLs: <code>http://localhost:3001/checkout</code> and <code>http://localhost:3001/metrics</code> to make sure everything works correctly.</p>
                 
                   
                 
