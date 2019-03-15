@@ -452,13 +452,16 @@
                 
                 <h2 id="containerize-the-app-and-deploy-to-ibm-cloud-private">Containerize the app and deploy to IBM Cloud Private<a class="headerlink" href="#containerize-the-app-and-deploy-to-ibm-cloud-private" title="Permanent link">&para;</a></h2>
 <h3 id="create-a-docker-container">Create a Docker container<a class="headerlink" href="#create-a-docker-container" title="Permanent link">&para;</a></h3>
-<p>Use provided <code>Dockerfile</code> to build application container:</p>
-<div class="codehilite"><pre><span></span>docker build -t b2m-nodejs .
+<p>Use provided <code>Dockerfile</code> to build the application container:</p>
+<div class="codehilite"><pre><span></span>cd ~/b2m-nodejs/src
+docker build -t b2m-nodejs .
 </pre></div>
 
 
 <p>Test container locally (make sure you stopped the local Node.js server and removed previous version of this docker container).</p>
-<div class="codehilite"><pre><span></span>docker run --name btm-nodejs -d -p 3001:3001 b2m-nodejs
+<div class="codehilite"><pre><span></span>docker stop b2m-nodejs
+docker rm b2m-nodejs
+docker run --name btm-nodejs -d -p 3001:3001 b2m-nodejs
 </pre></div>
 
 
