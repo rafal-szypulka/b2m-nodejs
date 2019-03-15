@@ -35,20 +35,14 @@ const port = process.env.PORT || 3001
 //   buckets: [0.10, 5, 15, 50, 100, 200, 300, 400, 500]  // buckets for response time from 0.1ms to 500ms
 // })
 
-//Runs before each requests
 // app.use((req, res, next) => {
 //   res.locals.startEpoch = Date.now()
 //   next()
 // })
 
 app.get('/', (req, res, next) => {
-var delay = Math.round(Math.random() * 400);
-  setTimeout(() => {
-   res.json({ status: 'ok', transactionTime: delay + 'ms' })
-   next()
- }, delay)
+  res.redirect('/checkout')
 })
-
 
 app.get('/healthz', (req, res, next) => {
   if(health) {
@@ -91,14 +85,12 @@ app.get('/checkout', (req, res, next) => {
 //   res.end(Prometheus.register.metrics())
 // })
 
-
 app.use((err, req, res, next) => {
   res.statusCode = 500
   res.json({ error: err.message })
   next()
 })
 
-// Runs after each requests
 // app.use((req, res, next) => {
 //   const responseTimeInMs = Date.now() - res.locals.startEpoch
 

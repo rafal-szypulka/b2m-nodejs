@@ -16,7 +16,7 @@ Prometheus docker compose project is located `/root/prometheus`
         group: 'production'
 
 ```
-replace xxx.xxx.xxx.xxx with your own host machine's IP.
+replace xxx.xxx.xxx.xxx with your own host machine's IP. In the lab VM, the IP address should be `10.0.0.1`
 
 2). Start Prometheus & Grafana stack:
    
@@ -36,14 +36,19 @@ Creating prometheus_grafana_1       ... done
 
 ```
 
-Verify that Prometheus started via: [http://localhost:9090](http://localhost:9090/graph)
-
+Verify that Prometheus server was started via: [http://localhost:9090](http://localhost:9090/graph)
+Check the status of scraping targets in Prometheus UI -> Status -> Targets 
 
 ## Run example PromQL queries
 
 Generate some application load before running the queries:
 
-/root/b2m-nodejs/
+```
+cd ~/b2m-nodejs/src/
+./load_test.sh
+```
+
+Run the following example PromQL queries using the Prometheus UI.
 
 ### Throughput
 
@@ -62,6 +67,7 @@ Expected value `~0.2` because our application should return 500 for about 20% of
 ```
 sum(rate(http_request_duration_ms_count[1m])) by (service, route, method, code)  * 60
 ```
+Check the graph.
 
 ### Response Time
 
@@ -99,7 +105,7 @@ avg(rate(http_request_duration_ms_sum[1m]) / rate(http_request_duration_ms_count
 
 #### Average Memory Usage
 
-In Megabyte.
+In Megabytes.
 
 ```
 avg(nodejs_external_memory_bytes / 1024 ) by (service)
@@ -124,12 +130,12 @@ Add the following alert rule to the `alert.rules` file. In the lab VM it is loca
         }} {{ $labels.route }}
 ```
 
-## Reload config
+Restart the Prometheus stack:
 
-Necessary when you modified Prometheus configuration.
-
-```sh
-curl -X POST http://localhost:9090/-/reload
+```
+cd ~/prometheus
+docker-compose down
+docker-compose up -d
 ```
 
 Alerts can be listed via Prometheus UI: [http://localhost:9090/alerts](http://localhost:9090/alerts)
@@ -150,7 +156,7 @@ Logon to Grafana via `http://localhost:3000`
 - user: admin
 - password: foobar
 
-Verify the prometheus datasource configuration in Grafana. If it was not already configured, [create](http://docs.grafana.org/features/datasources/prometheus/#adding-the-data-source-to-grafana) a Grafana datasource with this settings:
+Verify the prometheus datasource configuration in Grafana. If it was not already configured, [create](http://docs.grafana.org/features/datasources/prometheus/#adding-the-data-source-to-grafana) a Grafana datasource with these settings:
 
 + name: Prometheus
 + type: prometheus
@@ -160,9 +166,9 @@ Verify the prometheus datasource configuration in Grafana. If it was not already
 
 ## Configure dashboard
 
-Grafana Dashboard to [import](http://docs.grafana.org/reference/export_import/#importing-a-dashboard): `btm-nodejs-grafana.json`
+Grafana Dashboard to [import](http://docs.grafana.org/reference/export_import/#importing-a-dashboard): `~/b2m-nodejs/src/btm-nodejs-grafana.json`
 
-Monitoring dashboard was created according to RED Method principles:
+Monitoring dashboard was created according to the RED Method principles:
 
 - Rate (`Thoughput` and `Checkouts` panels)
 - Errors (`Error rate` panel)
@@ -180,4 +186,4 @@ Define Apdex score chart using the following query:
 ) / 2 / sum(rate(http_request_duration_ms_count[1m])) by (service)
 ```
 
-Every time you need application traffic, use provided script `b2m-nodejs/src/load_test.sh`
+Every time you need application traffic, use provided script `~/b2m-nodejs/src/load_test.sh`

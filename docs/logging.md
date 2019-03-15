@@ -9,7 +9,7 @@ According to the [12-factor](https://12factor.net/) application guidelines, logs
 
 Go to the directory where the `server.js` file is located and run the following command to install and configure a [winston](http://github.com/winstonjs/winston) logging library for node.js.
 ```
-cd b2m-nodejs/src
+cd ~/b2m-nodejs/src
 npm install --save winston
 ```
 this should add the following dependency to the `package.json`:
@@ -80,20 +80,23 @@ Example STDOUT (in the application terminal window):
 
 >After testing of the logging features, stop the application.
 
-Commit your changes to your GitHub repository:
+Configure your Github user and commit your changes to your GitHub repository:
 
 ```
-cd /root/b2m-nodejs
+cd ~/b2m-nodejs
+git config --global user.email "<your_github_email>"
 git commit -am "I added logging to my app!"
 git push
 ```
 
+Access your Github via web browser and verify that you see recent updates and history of changes.
+
 ## Create a Docker image for node.js application
 
-Use provided `Dockerfile` to build application container:
+Use provided `Dockerfile` to build the application container:
 
 ```
-cd b2m-nodejs/src
+cd ~/b2m-nodejs/src
 docker build -t b2m-nodejs .
 ```
 

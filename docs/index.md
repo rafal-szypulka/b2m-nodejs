@@ -49,9 +49,10 @@ https://github.com/<username>/b2m-nodejs
 
 where <username> is your GitHub username.
 
-Clone the `b2m-nodejs` lab repository using:
+Clone the `b2m-nodejs` lab repository to your home directory using:
 
 ```
+cd
 git clone https://github.com/<username>/b2m-nodejs
 ```
 

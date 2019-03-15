@@ -15,6 +15,7 @@ Rate, Errors and Duration attempt to cover the most obvious web service issues. 
 Go to the directory where the `server.js` file is located and run the following command to install and configure a [prom-client](https://github.com/siimon/prom-client) - a Node.js client library for Prometheus.
 
 ```
+cd ~/b2m-nodejs/src
 npm install --save prom-client
 ```
 this should add the following dependency to the `package.json`:
@@ -65,9 +66,10 @@ and
 Test the application locally:
 
 ```
-cd b2m-nodejs/src
+cd ~/b2m-nodejs/src
 npm start server.js
 ```
+Run a couple of transactions by refreshing the URL: `http://localhost:3001/checkout`
 
 Use browser or `curl` to access `http://localhost:3001/metrics` to verify exposed metrics. Output should be similar to:
 
@@ -148,6 +150,8 @@ nodejs_heap_space_size_available_bytes{space="large_object"} 1506500096 15464529
 nodejs_version_info{version="v10.7.0",major="10",minor="7",patch="0"} 1
 ```
 
+Stop node.js app `ctrl-c`.
+
 ### Define custom metric
 
 Node.js Prometheus client library allows to define various types of Prometheus metrics like histograms, summaries, gauges and counters. More detailed description of metric types can be found in Prometheus [documentation](https://prometheus.io/docs/concepts/metric_types/).
@@ -159,7 +163,7 @@ In this lab we will define two custom metrics:
 
 **Lab Instructions:**
 
-Uncomment the rest of commented lines in `server.js`
+Uncomment the rest of commented lines in `server.js`. 
 
 #### checkouts_total
 Declaration of `checkouts_total` counter.
@@ -214,6 +218,15 @@ app.use((req, res, next) => {
   next()
 })
 ```
+After you complete code changes, start the local application instance:
+
+```
+cd ~/b2m-nodejs/src
+npm start server.js
+```
+
+Run a couple of transactions by refreshing the URL: `http://localhost:3001/checkout`
+
 Use browser to access `http://localhost:3001/metrics` to verify exposed metrics. Output should be similar to:
 
 ```
@@ -268,10 +281,34 @@ Besides the default set of metrics related to resource utilization by the applic
 - `checkouts_total` by payment_method
 - `http_request_duration_ms_bucket` by percentile buckets and by route
 
+Stop the node.js application with `ctrl-c`.
+
 Commit your changes to your GiHub repository:
 
 ```
-cd /root/b2m-nodejs
+cd ~/b2m-nodejs
 git commit -am "I added monitoring instrumentation to my app!"
 git push
 ```
+
+Use provided `Dockerfile` to rebuild the application container:
+
+```
+cd ~/b2m-nodejs/src
+docker build -t b2m-nodejs .
+```
+
+Make sure the application is not running and you removed the previous application docker container:
+
+```
+docker ps|grep btm-nodejs
+```
+
+Start the updated docker container:
+
+```
+docker run --name btm-nodejs -d -p 3001:3001 --log-driver=gelf \
+--log-opt gelf-address=udp://localhost:5000 b2m-nodejs
+```
+
+Verify URLs: `http://localhost:3001/checkout` and `http://localhost:3001/metrics` to make sure everything works correctly.
