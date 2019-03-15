@@ -2,15 +2,18 @@
 
 ### Create a Docker container
 
-Use provided `Dockerfile` to build application container:
+Use provided `Dockerfile` to build the application container:
 
 ```
+cd ~/b2m-nodejs/src
 docker build -t b2m-nodejs .
 ```
 
 Test container locally (make sure you stopped the local Node.js server and removed previous version of this docker container).
 
 ```
+docker stop b2m-nodejs
+docker rm b2m-nodejs
 docker run --name btm-nodejs -d -p 3001:3001 b2m-nodejs
 ```
 Access `http://localhost:3001` to verify the application is running.
