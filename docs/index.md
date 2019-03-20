@@ -6,7 +6,7 @@ Instrumentation of the application code for monitoring and logging is part of th
 
 ## Lab outline
 
-- Review the application code and run it locally
+- Fork and clone the Github repository and review the source code
 - Configure logging library and add log messages
 - Configure and run Elastic stack in Docker Compose
 - Integrate application logs with Elastic stack
@@ -19,7 +19,7 @@ Instrumentation of the application code for monitoring and logging is part of th
 - Configure sample alert in Prometheus
 - Configure Grafana
 	- Import sample dashboard
-	- Define custom dashboard panel
+	- Define a custom dashboard panel
 - Deploy to IBM Cloud Private cluster and configure monitoring using ICP Prometheus and Grafana
 - Configure kubernetes liveness probe using application health check
 

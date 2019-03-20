@@ -283,6 +283,8 @@ Besides the default set of metrics related to resource utilization by the applic
 
 Stop the node.js application with `ctrl-c`.
 
+## Commit and push changes to your GitHub repository and create a pull request 
+
 Commit your changes to your GiHub repository:
 
 ```
@@ -290,6 +292,15 @@ cd ~/b2m-nodejs
 git commit -am "I added monitoring instrumentation to my app!"
 git push
 ```
+
+Logon to your GitHub account via web browser and go to the `b2m-nodejs` repository. 
+Create a [pull request](https://help.github.com/en/articles/about-pull-requests) to submit your changes to the source Github repository. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.
+
+Click the `New pull request` button, quickly review your changes and then click `Create pull request` button. Write a title and description of your changes and then click `Create pull request`.
+
+![](images/pull-request.png)
+
+## Build and test the Docker image
 
 Use provided `Dockerfile` to rebuild the application container:
 

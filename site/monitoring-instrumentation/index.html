@@ -336,6 +336,20 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#commit-and-push-changes-to-your-github-repository-and-create-a-pull-request" title="Commit and push changes to your GitHub repository and create a pull request" class="md-nav__link">
+    Commit and push changes to your GitHub repository and create a pull request
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-and-test-the-docker-image" title="Build and test the Docker image" class="md-nav__link">
+    Build and test the Docker image
+  </a>
+  
+</li>
+      
       
       
       
@@ -452,6 +466,20 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commit-and-push-changes-to-your-github-repository-and-create-a-pull-request" title="Commit and push changes to your GitHub repository and create a pull request" class="md-nav__link">
+    Commit and push changes to your GitHub repository and create a pull request
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-and-test-the-docker-image" title="Build and test the Docker image" class="md-nav__link">
+    Build and test the Docker image
+  </a>
   
 </li>
       
@@ -735,6 +763,7 @@ http_request_duration_ms_count{method=&quot;GET&quot;,route=&quot;/checkout&quot
 <li><code>http_request_duration_ms_bucket</code> by percentile buckets and by route</li>
 </ul>
 <p>Stop the node.js application with <code>ctrl-c</code>.</p>
+<h2 id="commit-and-push-changes-to-your-github-repository-and-create-a-pull-request">Commit and push changes to your GitHub repository and create a pull request<a class="headerlink" href="#commit-and-push-changes-to-your-github-repository-and-create-a-pull-request" title="Permanent link">&para;</a></h2>
 <p>Commit your changes to your GiHub repository:</p>
 <div class="codehilite"><pre><span></span>cd ~/b2m-nodejs
 git commit -am &quot;I added monitoring instrumentation to my app!&quot;
@@ -742,6 +771,11 @@ git push
 </pre></div>
 
 
+<p>Logon to your GitHub account via web browser and go to the <code>b2m-nodejs</code> repository. 
+Create a <a href="https://help.github.com/en/articles/about-pull-requests">pull request</a> to submit your changes to the source Github repository. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.</p>
+<p>Click the <code>New pull request</code> button, quickly review your changes and then click <code>Create pull request</code> button. Write a title and description of your changes and then click <code>Create pull request</code>.</p>
+<p><img alt="" src="../images/pull-request.png" /></p>
+<h2 id="build-and-test-the-docker-image">Build and test the Docker image<a class="headerlink" href="#build-and-test-the-docker-image" title="Permanent link">&para;</a></h2>
 <p>Use provided <code>Dockerfile</code> to rebuild the application container:</p>
 <div class="codehilite"><pre><span></span>cd ~/b2m-nodejs/src
 docker build -t b2m-nodejs .
