@@ -607,7 +607,12 @@ Creating docker-elk_logstash_1      ... done
 
 
 <p>In the lab environment, the Elastic stack has been preconfigured, so the example Dashboard and Visualizations should be available in Kibana out of the box. </p>
-<p>Simulate a couple fo transactions using <code>Firefox</code> or <code>curl</code> by accessing <code>http://localhost:3001/checkout</code> and check out the Kibana dashboard: <code>Dashboards-&gt;BTM Node.js</code></p>
+<p>Simulate a couple fo transactions using <code>Firefox</code> or <code>curl</code> by accessing <code>http://localhost:3001/checkout</code>:</p>
+<div class="codehilite"><pre><span></span>for i in {1..10}; do curl http://localhost:3001/checkout; done
+</pre></div>
+
+
+<p>and check out the Kibana dashboard: <code>Dashboards-&gt;BTM Node.js</code></p>
 <p>In case of problems with dashboard, you can also <a href="https://www.elastic.co/guide/en/kibana/current/managing-saved-objects.html">import</a> Kibana configuration using provided <code>btm-nodejs-kibana.json</code>:</p>
 <ul>
 <li>Go to Kibana: <code>http://localhost:5601</code></li>
