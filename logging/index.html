@@ -553,8 +553,8 @@ docker build -t b2m-nodejs .
 <p>The following procedure shows how to send the application logs to the local Elastic stack running in Docker.</p>
 <h3 id="deploy-a-local-elastic-stack-with-docker-compose">Deploy a local Elastic stack with Docker Compose<a class="headerlink" href="#deploy-a-local-elastic-stack-with-docker-compose" title="Permanent link">&para;</a></h3>
 <p>During this lab we will run the Elastic Stack (Elasticsearch, Logstash, Kibana) in the Docker Compose.
-Configuration for this lab is based on https://github.com/deviantony/docker-elk.
-Elastic stack docker compose project in located <code>/root/docker-elk</code></p>
+Configuration for this lab is based on <a href="https://github.com/deviantony/docker-elk">https://github.com/deviantony/docker-elk</a>.
+In the lab VM the Elastic stack docker compose project was cloned to <code>/root/docker-elk</code>.</p>
 <p>Briefly review the simple logstash configuration we use for this lab: <code>/root/docker-elk/logstash/pipeline/logstash.conf</code>:</p>
 <div class="codehilite"><pre><span></span>input {
     gelf { port =&gt; 5000 }
@@ -606,10 +606,9 @@ Creating docker-elk_logstash_1      ... done
 </pre></div>
 
 
-<p>Simulate a couple fo transactions using <code>Firefox</code> or <code>curl</code> by accessing <code>http://localhost:3001/checkout</code> URL and check if you can see application log records in Kibana.</p>
 <p>In the lab environment, the Elastic stack has been preconfigured, so the example Dashboard and Visualizations should be available in Kibana out of the box. </p>
 <p>Simulate a couple fo transactions using <code>Firefox</code> or <code>curl</code> by accessing <code>http://localhost:3001/checkout</code> and check out the Kibana dashboard: <code>Dashboards-&gt;BTM Node.js</code></p>
-<p>In case of problems, you can also import Kibana configuration using provided <code>btm-nodejs-kibana.json</code>:</p>
+<p>In case of problems with dashboard, you can also <a href="https://www.elastic.co/guide/en/kibana/current/managing-saved-objects.html">import</a> Kibana configuration using provided <code>btm-nodejs-kibana.json</code>:</p>
 <ul>
 <li>Go to Kibana: <code>http://localhost:5601</code></li>
 <li>Click on Management -&gt; Saved Objects -&gt; Import</li>
