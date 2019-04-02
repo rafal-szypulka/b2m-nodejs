@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "Build To Manage - Node.js example",
   "scripts": {
-    "start": "node"
+    "start": "node server.js"
   },
   "dependencies": {
-    "express": "4.16.4"
+    "express": "4.16.4",
+    "winston": "3.2.1"
   },
   "license": "MIT",
   "repository": {
