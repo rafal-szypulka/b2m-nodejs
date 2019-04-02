@@ -100,6 +100,7 @@ app.use((err, req, res, next) => {
 
 // Runs after each requests
 app.use((req, res, next) => {
+  console.log("here" , req.route)
   const responseTimeInMs = Date.now() - res.locals.startEpoch
 
   httpRequestDurationMicroseconds
