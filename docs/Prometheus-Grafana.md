@@ -2,7 +2,7 @@
 
 During this lab we will run the Prometheus and Grafana in  Docker Compose.
 Configuration for this lab is based on [https://github.com/vegasbrianc/prometheus](https://github.com/vegasbrianc/prometheus).
-Prometheus docker compose project is located `/root/prometheus`
+In the lab VM the Prometheus docker compose project was cloned to `/root/prometheus`.
 
 1). Add the scraping job definition to the Prometheus configuration file `/root/prometheus/prometheus/prometheus.yml` by adding (uncommenting in the lab VM) the following code within `scrape_config` section:
 
@@ -178,12 +178,19 @@ Monitoring dashboard was created according to the RED Method principles:
 
 Review the configuration of each dashboard panel. Check the [annotation](http://docs.grafana.org/reference/annotations/) settings.
 
-**Lab instruction:**
-Define Apdex score chart using the following query:
+Define the [Apdex](https://en.wikipedia.org/wiki/Apdex) score chart using the following query:
 
 ```
 (sum(rate(http_request_duration_ms_bucket{le="100"}[1m])) by (service) + sum(rate(http_request_duration_ms_bucket{le="300"}[1m])) by (service)
 ) / 2 / sum(rate(http_request_duration_ms_count[1m])) by (service)
 ```
+You can add it to the existing dashboard:
 
-Every time you need application traffic, use provided script `~/b2m-nodejs/src/load_test.sh`
+- Click on the icon `Add panel` and select `Graph` panel type. 
+- Click on the panel title and select edit.
+- Select `Prometheus` datasource in the `Metrics` tab of the panel query editor
+- Copy PromQL to the free form field
+- Verify the results on the panel preview
+- Explore other Graph panel options
+   
+Every time you need to generate an application traffic, use provided script `~/b2m-nodejs/src/load_test.sh`

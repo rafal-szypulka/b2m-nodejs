@@ -629,7 +629,7 @@
                 <h3 id="deploy-a-local-prometheus-and-grafana-stack-with-docker-compose">Deploy a local Prometheus and Grafana stack with Docker Compose<a class="headerlink" href="#deploy-a-local-prometheus-and-grafana-stack-with-docker-compose" title="Permanent link">&para;</a></h3>
 <p>During this lab we will run the Prometheus and Grafana in  Docker Compose.
 Configuration for this lab is based on <a href="https://github.com/vegasbrianc/prometheus">https://github.com/vegasbrianc/prometheus</a>.
-Prometheus docker compose project is located <code>/root/prometheus</code></p>
+In the lab VM the Prometheus docker compose project was cloned to <code>/root/prometheus</code>.</p>
 <p>1). Add the scraping job definition to the Prometheus configuration file <code>/root/prometheus/prometheus/prometheus.yml</code> by adding (uncommenting in the lab VM) the following code within <code>scrape_config</code> section:</p>
 <div class="codehilite"><pre><span></span>  - job_name: &#39;btm-nodejs&#39;
     scrape_interval: 20s
@@ -771,14 +771,22 @@ docker-compose up -d
 </ul>
 <p><img alt="Grafana - Throughput" src="../images/grafana.png" /></p>
 <p>Review the configuration of each dashboard panel. Check the <a href="http://docs.grafana.org/reference/annotations/">annotation</a> settings.</p>
-<p><strong>Lab instruction:</strong>
-Define Apdex score chart using the following query:</p>
+<p>Define the <a href="https://en.wikipedia.org/wiki/Apdex">Apdex</a> score chart using the following query:</p>
 <div class="codehilite"><pre><span></span>(sum(rate(http_request_duration_ms_bucket{le=&quot;100&quot;}[1m])) by (service) + sum(rate(http_request_duration_ms_bucket{le=&quot;300&quot;}[1m])) by (service)
 ) / 2 / sum(rate(http_request_duration_ms_count[1m])) by (service)
 </pre></div>
 
 
-<p>Every time you need application traffic, use provided script <code>~/b2m-nodejs/src/load_test.sh</code></p>
+<p>You can add it to the existing dashboard:</p>
+<ul>
+<li>Click on the icon <code>Add panel</code> and select <code>Graph</code> panel type. </li>
+<li>Click on the panel title and select edit.</li>
+<li>Select <code>Prometheus</code> datasource in the <code>Metrics</code> tab of the panel query editor</li>
+<li>Copy PromQL to the free form field</li>
+<li>Verify the results on the panel preview</li>
+<li>Explore other Graph panel options</li>
+</ul>
+<p>Every time you need to generate an application traffic, use provided script <code>~/b2m-nodejs/src/load_test.sh</code></p>
                 
                   
                 

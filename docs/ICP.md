@@ -34,21 +34,17 @@ kubectl apply -f b2m-nodejs-icp.yml
 Verify deployment status.
 
 ```
-$ kubectl get deploy b2m-nodejs
+$ kubectl get deploy b2m-nodejs -n default
 NAME         DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 b2m-nodejs   1         1         1            1           4h
 ```
 
-Find the external IP of the worker node where the pod is running (look for column `NODE`.
+Get the application URL by running these commands:
 
 ```
-kubectl get pod <pod_name> -o wide
-```
-
-Get the external `NodePort`.
-
-```
-kubect get svc b2m-nodejs
+export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services b2m-nodejs)
+export NODE_IP=$(kubectl get nodes -l proxy=true -o jsonpath="{.items[0].status.addresses[?(@.type==\"Hostname\")].address}")
+echo http://$NODE_IP:$NODE_PORT
 ```
 
 Use the browser to access the application URL: `http://<node_external_ip>:<external_nodeport>` 

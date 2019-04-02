@@ -47,7 +47,7 @@ From now on you will work on your own fork of the application project
 https://github.com/<username>/b2m-nodejs
 ```
 
-where <username> is your GitHub username.
+where `<username>` is your GitHub username.
 
 Clone the `b2m-nodejs` lab repository to your home directory using:
 

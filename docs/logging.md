@@ -106,8 +106,8 @@ The following procedure shows how to send the application logs to the local Elas
 ### Deploy a local Elastic stack with Docker Compose
 
 During this lab we will run the Elastic Stack (Elasticsearch, Logstash, Kibana) in the Docker Compose.
-Configuration for this lab is based on https://github.com/deviantony/docker-elk.
-Elastic stack docker compose project in located `/root/docker-elk`
+Configuration for this lab is based on [https://github.com/deviantony/docker-elk](https://github.com/deviantony/docker-elk).
+In the lab VM the Elastic stack docker compose project was cloned to `/root/docker-elk`.
 
 Briefly review the simple logstash configuration we use for this lab: `/root/docker-elk/logstash/pipeline/logstash.conf`:
 
@@ -164,13 +164,15 @@ docker run --name btm-nodejs -d -p 3001:3001 --log-driver=gelf \
 --log-opt gelf-address=udp://localhost:5000 b2m-nodejs
 ```
 
-Simulate a couple fo transactions using `Firefox` or `curl` by accessing `http://localhost:3001/checkout` URL and check if you can see application log records in Kibana.
-
 In the lab environment, the Elastic stack has been preconfigured, so the example Dashboard and Visualizations should be available in Kibana out of the box. 
 
-Simulate a couple fo transactions using `Firefox` or `curl` by accessing `http://localhost:3001/checkout` and check out the Kibana dashboard: `Dashboards->BTM Node.js`
+Simulate a couple fo transactions using `Firefox` or `curl` by accessing `http://localhost:3001/checkout`:
+```
+for i in {1..10}; do curl http://localhost:3001/checkout; done
+```
+and check out the Kibana dashboard: `Dashboards->BTM Node.js`
 
-In case of problems, you can also import Kibana configuration using provided `btm-nodejs-kibana.json`:
+In case of problems with dashboard, you can also [import](https://www.elastic.co/guide/en/kibana/current/managing-saved-objects.html) Kibana configuration using provided `btm-nodejs-kibana.json`:
 
 - Go to Kibana: `http://localhost:5601`
 - Click on Management -> Saved Objects -> Import
