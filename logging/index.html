@@ -541,7 +541,13 @@ git push
 </pre></div>
 
 
-<p>Access your Github via web browser and verify that you see recent updates and history of changes.</p>
+<p>Access your Github via web browser and verify that you can see recent updates and history of changes.</p>
+<p>The log standardization is especially important for big applications. Simple source code scanning tools can help to find out if the application code follows the recommended logging standard. Run the tool we created for one of our customers to collect statistics about the logging code in our application. It supports both javascript and java:</p>
+<div class="codehilite"><pre><span></span>cd ~/b2m-nodejs
+java -jar code-scan-logging/scan.jar src
+</pre></div>
+
+
 <h2 id="create-a-docker-image-for-nodejs-application">Create a Docker image for node.js application<a class="headerlink" href="#create-a-docker-image-for-nodejs-application" title="Permanent link">&para;</a></h2>
 <p>Use provided <code>Dockerfile</code> to build the application container:</p>
 <div class="codehilite"><pre><span></span>cd ~/b2m-nodejs/src
