@@ -1,18 +1,18 @@
 'use strict'
-//const { createLogger, format, transports } = require('winston')
+const { createLogger, format, transports } = require('winston')
 const express = require('express')
 //const Prometheus = require('prom-client')
 
-// const logger = createLogger({
-//   level: 'debug',
-//   format: format.combine(
-//     format.timestamp({
-//       format: "YYYY-MM-DD'T'HH:mm:ss.SSSZ"
-//     }),
-//     format.json()
-//   ),
-//   transports: [new transports.Console()]
-// });
+ const logger = createLogger({
+   level: 'debug',
+   format: format.combine(
+     format.timestamp({
+       format: "YYYY-MM-DD'T'HH:mm:ss.SSSZ"
+     }),
+     format.json()
+   ),
+   transports: [new transports.Console()]
+ });
 
 var health = true;
 var msg;
@@ -69,14 +69,14 @@ app.get('/checkout', (req, res, next) => {
   if (errorState) {
     msg = 'RSAP0010E: Severe problem detected'
     next(new Error(msg))
-//    logger.error(msg, {"errCode": "RSAP0010E", "transactionTime": delay})
+    logger.error(msg, {"errCode": "RSAP0010E", "transactionTime": delay})
   } else {
     msg = 'RSAP0001I: Transaction OK'
    setTimeout(() => {
     res.json({ status: msg, transactionTime: delay + 'ms' })
     next()
    }, delay)
-//   logger.info(msg, {"errCode": "RSAP0001I", "transactionTime": delay})
+   logger.info(msg, {"errCode": "RSAP0001I", "transactionTime": delay})
   }
 })
 
