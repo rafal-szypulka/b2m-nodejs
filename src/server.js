@@ -108,9 +108,9 @@ app.get('/bad-health', (req, res, next) => {
 app.get('/checkout', (req, res, next) => {
   const paymentMethod = Math.round(Math.random() * 100) > 20 ? 'card' : 'paypal'
   const errorState =  Math.round(Math.random() * 100) > 20 ? 0 : 1
-  // checkoutsTotal.inc({
-  //   payment_method: paymentMethod
-  // })
+   checkoutsTotal.inc({
+     payment_method: paymentMethod
+  })
   var delay = Math.round(Math.random() * 100);
   if (errorState) {
     msg = 'RSAP0010E: Severe problem detected'
